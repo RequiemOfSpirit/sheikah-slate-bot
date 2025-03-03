@@ -1,0 +1,37 @@
+{
+  "name": "sheikah-slate-discord-bot",
+  "version": "0.0.0",
+  "description": "A Discord bot for the Breath of the Wild community that provides a repository of helpful links and resources",
+  "main": "src/index.js",
+  "scripts": {
+    "clean": "rm -rf dist && rm -rf node_modules",
+    "lint": "eslint --cache --report-unused-disable-directives --max-warnings 0 && prettier --cache -c .",
+    "lint:fix": "eslint --fix --cache --report-unused-disable-directives --max-warnings 0 && prettier --cache -w .",
+    "prebuild": "npm run lint:fix",
+    "build": "tsup",
+    "start": "node dist/index.js",
+    "dev": "tsx watch src/discord/index.ts",
+    "check-updates": "npx npm-check-updates",
+    "check-updates:write": "npx npm-check-updates -u -t minor"
+  },
+  "type": "module",
+  "author": "RequiemOfSpirit",
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "^14.18.0",
+    "dotenv": "^16.4.7"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.21.0",
+    "@ianvs/prettier-plugin-sort-imports": "^4.4.1",
+    "@stylistic/eslint-plugin": "^4.2.0",
+    "eslint": "^9.21.0",
+    "eslint-config-prettier": "^10.0.2",
+    "npm-check-updates": "^17.1.15",
+    "prettier": "^3.5.3",
+    "tsup": "^8.4.0",
+    "tsx": "^4.19.3",
+    "typescript": "^5.7.3",
+    "typescript-eslint": "^8.25.0"
+  }
+}
