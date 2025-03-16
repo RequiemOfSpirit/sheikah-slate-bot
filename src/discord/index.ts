@@ -34,6 +34,9 @@ client.on('messageCreate', async (message: Message) => {
   }
 
   const response = new EmbedBuilder().setColor(Colors.Blue).setTitle(resource.title).setDescription(resource.content);
+  if (resource.aliases.length > 1) {
+    response.setFooter({ text: `Aliases: ${resource.aliases.join(', ')}` });
+  }
   void message.reply({ embeds: [response] });
 });
 
