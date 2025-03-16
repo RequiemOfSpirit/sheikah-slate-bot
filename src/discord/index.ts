@@ -1,9 +1,8 @@
 import { Client, Colors, EmbedBuilder, Events, GatewayIntentBits, Message } from 'discord.js';
-import { config } from 'dotenv';
-import { COMMANDS } from './test-commands.ts';
+import { Resource } from '@/model/resources';
+import { getResource } from '@/store/dao';
+import { DISCORD_TOKEN } from '@/utils/env';
 
-config();
-const { DISCORD_TOKEN } = process.env;
 const COMMAND_PREFIX = '!';
 
 const client = new Client({
@@ -20,21 +19,21 @@ client.once(Events.ClientReady, (readyClient: Client<true>) => {
   console.log(readyClient.guilds);
 });
 
-client.on('messageCreate', (message: Message) => {
-  console.log('New message: ', message.content);
-
+client.on('messageCreate', async (message: Message) => {
   if (!message.content.startsWith(COMMAND_PREFIX)) {
     return;
   }
 
+  console.log('Processing command: ', message.content);
+
   // Remove the prefix, grab first word and convert to lowercase
   const command = message.content.slice(1).split(' ')[0].toLowerCase();
-  const responseText: string | undefined = COMMANDS[command];
-  if (!responseText) {
+  const resource: Resource | undefined = await getResource(command);
+  if (!resource) {
     return;
   }
 
-  const response = new EmbedBuilder().setColor(Colors.Blue).setTitle(command).setDescription(responseText);
+  const response = new EmbedBuilder().setColor(Colors.Blue).setTitle(resource.title).setDescription(resource.content);
   void message.reply({ embeds: [response] });
 });
 
