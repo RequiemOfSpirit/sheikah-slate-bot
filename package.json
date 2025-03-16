@@ -11,6 +11,9 @@
     "build": "tsup",
     "start": "node dist/index.js",
     "dev": "tsx watch src/discord/index.ts",
+    "db:make": "node-pg-migrate create -j sql",
+    "db:migrate": "node-pg-migrate up",
+    "db:migrate:down": "node-pg-migrate down",
     "check-updates": "npx npm-check-updates",
     "check-updates:write": "npx npm-check-updates -u -t minor"
   },
@@ -19,14 +22,17 @@
   "license": "ISC",
   "dependencies": {
     "discord.js": "^14.18.0",
-    "dotenv": "^16.4.7"
+    "dotenv": "^16.4.7",
+    "pg": "^8.13.3"
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",
     "@ianvs/prettier-plugin-sort-imports": "^4.4.1",
     "@stylistic/eslint-plugin": "^4.2.0",
+    "@types/pg": "^8.11.11",
     "eslint": "^9.21.0",
     "eslint-config-prettier": "^10.0.2",
+    "node-pg-migrate": "^7.9.1",
     "npm-check-updates": "^17.1.15",
     "prettier": "^3.5.3",
     "tsup": "^8.4.0",
