@@ -12,13 +12,17 @@ import tsEslint from 'typescript-eslint';
 const tsEslintParserOptions = {
   languageOptions: {
     parserOptions: {
-      project: './tsconfig.json',
+      project: ['./packages/**/tsconfig.json', './tsconfig.config.json'],
       tsconfigRootDir: import.meta.dirname,
     },
   },
 };
 
-// `tsEslint.config` adds type references to the config objects below without needing a long jsdoc @type comment
+/**
+ * Global ESLint config for all packages and files
+ *
+ * `tsEslint.config` adds type references to the config objects below without needing a long jsdoc @type comment
+ */
 export default tsEslint.config(
   eslint.configs.recommended,
   ...tsEslint.configs.strictTypeChecked,
@@ -28,7 +32,7 @@ export default tsEslint.config(
 
   /* Global ignores */
   {
-    ignores: ['dist', 'node_modules', 'temp'],
+    ignores: ['**/dist', '**/node_modules'],
   },
 
   /* Global settings */

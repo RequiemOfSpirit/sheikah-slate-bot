@@ -1,7 +1,6 @@
 import { Client, Colors, EmbedBuilder, Events, GatewayIntentBits, Message } from 'discord.js';
-import { Resource } from '@/model/resources';
-import { getResource } from '@/store/dao';
-import { DISCORD_TOKEN } from '@/utils/env';
+import { getResource, Resource } from '@sheikah-slate-bot/db';
+import { DISCORD_TOKEN } from './utils/env.ts';
 
 const COMMAND_PREFIX = '!';
 

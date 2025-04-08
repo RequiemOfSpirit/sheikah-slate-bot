@@ -1,0 +1,7 @@
+{
+  "extends": "../../tsconfig.node.base.json",
+  "compilerOptions": {
+    "declarationMap": true,
+    "sourceMap": true,
+  },
+}

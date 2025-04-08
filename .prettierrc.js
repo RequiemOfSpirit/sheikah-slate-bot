@@ -4,7 +4,10 @@
  * } PrettierConfig
  */
 
-/** @type {PrettierConfig} */
+/**
+ * Prettier config for all project files
+ * @type {PrettierConfig}
+ */
 export default {
   /* Rules */
   printWidth: 120,
@@ -26,5 +29,5 @@ export default {
   plugins: ['@ianvs/prettier-plugin-sort-imports'],
 
   /* `ianvs-sort-imports` plugin rules */
-  importOrder: ['^@/(.*)$', '^@tests/(.*)$', '^[./]'],
+  importOrder: ['^@sheikah-slate-bot/(.*)$', '^@/(.*)$', '^@tests/(.*)$', '^[./]'],
 };

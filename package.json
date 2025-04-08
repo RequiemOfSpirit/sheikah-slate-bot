@@ -1,40 +1,19 @@
 {
-  "name": "sheikah-slate-discord-bot",
+  "name": "sheikah-slate-bot",
   "version": "0.0.0",
-  "description": "A Discord bot for the Breath of the Wild community that provides a repository of helpful links and resources",
-  "main": "src/index.js",
+  "description": "A set of multiplatform bots and tools for the Breath of the Wild community that provide a repository of helpful links and resources",
   "scripts": {
-    "clean": "rm -rf dist && rm -rf node_modules",
-    "lint": "eslint --cache --report-unused-disable-directives --max-warnings 0 && prettier --cache -c .",
-    "lint:fix": "eslint --fix --cache --report-unused-disable-directives --max-warnings 0 && prettier --cache -w .",
-    "dev": "tsx watch src/discord/index.ts",
-    "prebuild": "npm run lint:fix",
-    "build": "tsup",
-    "start": "node dist/index.js",
-    "db:make": "node-pg-migrate create -j sql",
-    "db:migrate": "node-pg-migrate up",
-    "db:migrate:down": "node-pg-migrate down"
+    "clean:root": "rm -f .eslintcache && rm -rf node_modules",
+    "lint:fix:root": "eslint --ignore-pattern=packages --fix --cache --report-unused-disable-directives --max-warnings 0 && prettier --cache -w .",
+    "clean": "npm run clean:root && npm run clean --workspaces",
+    "prebuild": "npm run lint:fix:root",
+    "build": "npm run build --workspaces"
   },
   "type": "module",
   "author": "RequiemOfSpirit",
   "license": "ISC",
-  "dependencies": {
-    "discord.js": "^14.18.0",
-    "dotenv": "^16.4.7",
-    "pg": "^8.14.1",
-    "tsup": "^8.4.0"
-  },
-  "devDependencies": {
-    "@eslint/js": "^9.24.0",
-    "@ianvs/prettier-plugin-sort-imports": "^4.4.1",
-    "@stylistic/eslint-plugin": "^4.2.0",
-    "@types/pg": "^8.11.11",
-    "eslint": "^9.24.0",
-    "eslint-config-prettier": "^10.1.1",
-    "node-pg-migrate": "^7.9.1",
-    "prettier": "^3.5.3",
-    "tsx": "^4.19.3",
-    "typescript": "^5.8.3",
-    "typescript-eslint": "^8.29.0"
-  }
+  "workspaces": [
+    "packages/db",
+    "packages/discord-bot"
+  ]
 }

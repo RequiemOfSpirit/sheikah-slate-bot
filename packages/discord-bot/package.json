@@ -1,0 +1,33 @@
+{
+  "name": "@sheikah-slate-bot/discord-bot",
+  "version": "0.0.0",
+  "description": "Discord bot component of the project.",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "clean": "rm -f .eslintcache && rm -rf dist && rm -rf node_modules",
+    "lint": "eslint --cache --report-unused-disable-directives --max-warnings 0 && prettier --cache -c .",
+    "lint:fix": "eslint --fix --cache --report-unused-disable-directives --max-warnings 0 && prettier --cache -w .",
+    "dev": "tsx watch src/index.ts",
+    "prebuild": "npm run lint:fix",
+    "build": "tsc",
+    "start": "node dist/index.js"
+  },
+  "type": "module",
+  "dependencies": {
+    "@dotenvx/dotenvx": "^1.39.1",
+    "@sheikah-slate-bot/db": "*",
+    "discord.js": "^14.18.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.24.0",
+    "@ianvs/prettier-plugin-sort-imports": "^4.4.1",
+    "@stylistic/eslint-plugin": "^4.2.0",
+    "eslint": "^9.24.0",
+    "eslint-config-prettier": "^10.1.1",
+    "prettier": "^3.5.3",
+    "tsx": "^4.19.3",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.29.0"
+  }
+}

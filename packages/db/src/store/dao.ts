@@ -1,10 +1,10 @@
 import pg from 'pg';
-import { Resource } from '@/model/resources';
-import { DATABASE_URL } from '@/utils/env';
+import { Resource } from '../model/resources.ts';
+import { DATABASE_URL } from '../utils/env.ts';
 
 const { Pool } = pg;
 const connectionPool = new Pool({
-  connectionString: DATABASE_URL,
+  connectionString: DATABASE_URL, // TODO: Accept connection string from DAO user instead
   connectionTimeoutMillis: 2000,
 });
 

@@ -1,31 +1,8 @@
 {
-  "exclude": ["dist", "node_modules", "temp"],
-  "compilerOptions": {
-    /* Module and Environment */
-    "target": "ESNext",
-    "module": "NodeNext",
-    "moduleResolution": "nodenext",
-    "rewriteRelativeImportExtensions": true,
-    "skipLibCheck": true,
-    "baseUrl": "./",
-    "paths": {
-      "@/*": ["./src/*.ts"],
-    },
-
-    /* Output */
-    "outDir": "./dist",
-    "removeComments": true,
-
-    /* Project */
-    "allowJs": true,
-    "resolveJsonModule": true,
-    "useDefineForClassFields": true,
-    "forceConsistentCasingInFileNames": true,
-
-    /* Linting */
-    "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true,
-  },
+  "files": [],
+  "references": [
+    { "path": "./tsconfig.config.json" },
+    { "path": "./packages/db/tsconfig.json" },
+    { "path": "./packages/discord-bot/tsconfig.json" },
+  ],
 }
