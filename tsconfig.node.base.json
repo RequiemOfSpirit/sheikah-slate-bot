@@ -1,7 +1,6 @@
 /* Base TSConfig settings for projects run in node environments */
 {
   "extends": "./tsconfig.base.json",
-  "include": ["${configDir}/src"],
   "exclude": ["${configDir}/dist", "${configDir}/node_modules"],
   "compilerOptions": {
     /* Project */
