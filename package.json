@@ -3,9 +3,9 @@
   "version": "0.0.0",
   "description": "A set of multiplatform bots and tools for the Breath of the Wild community that provide a repository of helpful links and resources",
   "scripts": {
-    "clean:root": "rm -f .eslintcache && rm -rf node_modules",
-    "lint:fix:root": "eslint --ignore-pattern=packages --fix --cache --report-unused-disable-directives --max-warnings 0 && prettier --cache -w .",
+    "clean:root": "rm -rf node_modules",
     "clean": "npm run clean:root && npm run clean --workspaces",
+    "lint:fix:root": "eslint --ignore-pattern=packages --fix --cache --cache-location ./node_modules/.cache/.eslintcache/ --report-unused-disable-directives --max-warnings 0 && prettier --cache -w .",
     "prebuild": "npm run lint:fix:root",
     "build": "npm run build --workspaces"
   },
