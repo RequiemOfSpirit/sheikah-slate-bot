@@ -1,6 +1,6 @@
 import { Client, Colors, EmbedBuilder, Events, GatewayIntentBits, Message } from 'discord.js';
-import { getResource, Resource } from '@sheikah-slate-bot/db';
-import { DISCORD_TOKEN } from './utils/env.ts';
+import { Resource, SheikahSlateDao } from '@sheikah-slate-bot/db';
+import { DATABASE_URL, DISCORD_TOKEN } from './utils/env.ts';
 
 const COMMAND_PREFIX = '!';
 
@@ -12,6 +12,8 @@ const client = new Client({
     GatewayIntentBits.MessageContent,
   ],
 });
+
+const dao = new SheikahSlateDao(DATABASE_URL);
 
 client.once(Events.ClientReady, (readyClient: Client<true>) => {
   console.log(`Ready! Logged in as ${readyClient.user.tag}`);
@@ -27,7 +29,7 @@ client.on('messageCreate', async (message: Message) => {
 
   // Remove the prefix, grab first word and convert to lowercase
   const command = message.content.slice(1).split(' ')[0].toLowerCase();
-  const resource: Resource | undefined = await getResource(command);
+  const resource: Resource | undefined = await dao.getResource(command);
   if (!resource) {
     return;
   }
