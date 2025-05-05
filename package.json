@@ -7,7 +7,8 @@
     "clean": "npm run clean:root && npm run clean --workspaces",
     "lint:fix:root": "eslint --ignore-pattern=packages --fix --cache --cache-location ./node_modules/.cache/.eslintcache/ --report-unused-disable-directives --max-warnings 0 && prettier --cache -w .",
     "prebuild": "npm run lint:fix:root",
-    "build": "npm run build --workspaces"
+    "build": "npm run build --workspaces",
+    "dist": "npm run dist --workspaces"
   },
   "type": "module",
   "author": "RequiemOfSpirit",

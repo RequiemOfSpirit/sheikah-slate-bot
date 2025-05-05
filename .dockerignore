@@ -1,0 +1,21 @@
+# Dependencies and build outputs
+**/node_modules
+**/dist
+
+# Git-related files
+.git
+.gitignore
+
+# Docker-related files
+**/Dockerfile
+.dockerignore
+compose.yml
+
+# Config files
+eslint.config.js
+.prettierrc.js
+**/.prettierignore
+**/.env.sample
+
+# Documentation
+**/*.md

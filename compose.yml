@@ -1,0 +1,53 @@
+services:
+  # PostgreSQL DB
+  database:
+    image: postgres:17-alpine
+    container_name: sheikah-slate-bot_db
+    env_file: './packages/db/.env'
+    volumes:
+      - app-db-data:/var/lib/postgresql/data
+    networks:
+      - app-network
+
+  # Simple service to wait for DB setup
+  database-wait:
+    image: atkrad/wait4x
+    container_name: sheikah-slate-bot_db-wait
+    depends_on:
+      - database
+    networks:
+      - app-network
+    command: tcp database:5432 -t 30s -i 250ms
+
+  # DB Migrations
+  database-migrations:
+    image: sheikah-slate-bot/db-migrations
+    container_name: sheikah-slate-bot_db-migrations
+    env_file: './packages/db/.env'
+    build:
+      dockerfile: ./packages/db/Dockerfile
+    depends_on:
+      database-wait:
+        condition: service_completed_successfully
+    networks:
+      - app-network
+
+  # Discord Bot
+  discord-bot:
+    image: sheikah-slate-bot/discord-bot
+    container_name: sheikah-slate-bot_discord-bot
+    build:
+      dockerfile: ./packages/discord-bot/Dockerfile
+    depends_on:
+      database-migrations:
+        condition: service_completed_successfully
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    name: sheikah-slate-bot_network
+
+volumes:
+  app-db-data:
+    name: sheikah-slate-bot_db-data

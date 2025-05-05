@@ -10,13 +10,14 @@
     "lint:fix": "eslint --fix --cache --cache-location ./node_modules/.cache/.eslintcache/ --report-unused-disable-directives --max-warnings 0 && prettier --cache -w .",
     "prebuild": "npm run lint:fix && npm run clean:dist",
     "build": "tsc",
+    "predist": "npm run clean:dist",
+    "dist": "tsc -p tsconfig.production.json",
     "db:make": "node-pg-migrate create -j sql",
     "db:migrate": "node-pg-migrate up",
     "db:migrate:down": "node-pg-migrate down"
   },
   "type": "module",
   "dependencies": {
-    "@dotenvx/dotenvx": "^1.39.1",
     "pg": "^8.14.1"
   },
   "devDependencies": {
@@ -24,6 +25,7 @@
     "@ianvs/prettier-plugin-sort-imports": "^4.4.1",
     "@stylistic/eslint-plugin": "^4.2.0",
     "@types/pg": "^8.11.11",
+    "dotenv": "^16.5.0",
     "eslint": "^9.24.0",
     "eslint-config-prettier": "^10.1.1",
     "node-pg-migrate": "^7.9.1",
