@@ -8,7 +8,10 @@
     "lint:fix:root": "eslint --ignore-pattern=packages --fix --cache --cache-location ./node_modules/.cache/.eslintcache/ --report-unused-disable-directives --max-warnings 0 && prettier --cache -w .",
     "prebuild": "npm run lint:fix:root",
     "build": "npm run build --workspaces",
-    "dist": "npm run dist --workspaces"
+    "dist": "npm run dist --workspaces",
+    "service:deploy": "docker compose up -d --build",
+    "service:stop": "docker compose down",
+    "service:logs": "docker compose logs -f --tail 1000"
   },
   "type": "module",
   "author": "RequiemOfSpirit",
