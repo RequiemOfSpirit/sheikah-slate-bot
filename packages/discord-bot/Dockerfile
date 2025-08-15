@@ -11,7 +11,8 @@ COPY . .
 RUN npm run dist
 
 FROM base AS runtime-stage
-RUN --mount=type=cache,target=/root/.npm npm ci --omit=dev --no-audit --no-fund
+ENV NODE_ENV=production
+RUN --mount=type=cache,target=/root/.npm npm ci --no-audit --no-fund
 COPY --from=build-stage /usr/local/app/packages/db/dist packages/db/dist
 COPY --from=build-stage /usr/local/app/packages/discord-bot/dist packages/discord-bot/dist
 COPY packages/discord-bot/.env packages/discord-bot/.env
