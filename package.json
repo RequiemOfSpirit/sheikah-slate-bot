@@ -11,7 +11,8 @@
     "dist": "npm run dist --workspaces",
     "service:deploy": "docker compose up -d --build",
     "service:stop": "docker compose down",
-    "service:logs": "docker compose logs -f --tail 1000"
+    "service:logs": "docker compose logs -f --tail 1000",
+    "service:setup:commands": "docker exec -it sheikah-slate-bot_db /usr/local/app/bin/add-command.sh"
   },
   "type": "module",
   "author": "RequiemOfSpirit",

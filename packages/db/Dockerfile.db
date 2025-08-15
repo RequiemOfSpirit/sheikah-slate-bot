@@ -1,0 +1,5 @@
+FROM postgres:17-alpine
+
+# Temp support scripts to add commands. Will remove after backend module has this functionality implemented.
+COPY packages/db/bin /usr/local/app/bin
+RUN chmod +x /usr/local/app/bin/*
