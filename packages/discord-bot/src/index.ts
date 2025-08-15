@@ -25,14 +25,15 @@ client.on('messageCreate', async (message: Message) => {
     return;
   }
 
-  console.log('Processing command: ', message.content);
-
   // Remove the prefix, grab first word and convert to lowercase
   const command = message.content.slice(1).split(' ')[0].toLowerCase();
   const resource: Resource | undefined = await dao.getResource(command);
   if (!resource) {
+    console.log(`Command '${message.content}' not found`);
     return;
   }
+
+  console.log(`Processing command '${message.content}'`);
 
   const response = new EmbedBuilder().setColor(Colors.Blue).setTitle(resource.title).setDescription(resource.content);
   if (resource.aliases.length > 1) {
