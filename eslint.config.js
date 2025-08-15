@@ -52,9 +52,8 @@ export default tsEslint.config(
 
       /*
        * Additional stylistic rules
-       * These will be replaced with `@stylistic` equivalents when `eslint-config-prettier` is updated (see comment block at the top)
        */
-      '@stylistic/quotes': ['warn', 'single', { avoidEscape: true, allowTemplateLiterals: false }],
+      '@stylistic/quotes': ['warn', 'single', { avoidEscape: true }],
 
       // Overrides
       '@typescript-eslint/no-confusing-void-expression': ['error', { ignoreArrowShorthand: true }],
