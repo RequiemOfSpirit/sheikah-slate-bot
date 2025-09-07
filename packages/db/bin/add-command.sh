@@ -7,7 +7,6 @@ if [ -z "$DATABASE_URL" ]; then
 fi
 
 while true; do
-  read -p "Enter command id: " COMMAND_NAME
   read -p "Enter command title: " RESOURCE_TITLE
   read -p "Enter response content for command: " RESOURCE_CONTENT
 
@@ -19,13 +18,22 @@ while true; do
   fi
   echo -e "\033[1;32mInserted resource with ID: $RESOURCE_ID\033[0m"
 
-  # Insert into commands table
-  COMMAND_ID=$(psql "$DATABASE_URL" -t -c "INSERT INTO commands (name, resource_id) VALUES ('$COMMAND_NAME', '$RESOURCE_ID') RETURNING id;" | head -n 1 | xargs)
-  if [ -z "$COMMAND_ID" ]; then
-    echo -e "\033[1;31mError: Failed to insert into commands table\033[0m"
-    exit 1
-  fi
-  echo -e "\033[1;32mInserted command with ID: $COMMAND_ID\033[0m\n"
+  while true; do
+    read -p "Enter command id/alias id: " COMMAND_NAME
+
+    # Insert into commands table
+    COMMAND_ID=$(psql "$DATABASE_URL" -t -c "INSERT INTO commands (name, resource_id) VALUES ('$COMMAND_NAME', '$RESOURCE_ID') RETURNING id;" | head -n 1 | xargs)
+    if [ -z "$COMMAND_ID" ]; then
+      echo -e "\033[1;31mError: Failed to insert into commands table\033[0m"
+      exit 1
+    fi
+    echo -e "\033[1;32mInserted command with ID: $COMMAND_ID\033[0m\n"
+
+    read -p "Do you want to another command ID/alias? (y/N): " NEW_ALIAS
+    if [[ "$NEW_ALIAS" != "y" && "$NEW_ALIAS" != "Y" ]]; then
+      break
+    fi
+  done
 
   read -p "Do you want to add another command? (y/N): " NEW_COMMAND
   if [[ "$NEW_COMMAND" != "y" && "$NEW_COMMAND" != "Y" ]]; then
