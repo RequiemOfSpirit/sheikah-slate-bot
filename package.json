@@ -15,10 +15,14 @@
     "service:setup:commands": "docker exec -it sheikah-slate-bot_db /usr/local/app/bin/add-command.sh"
   },
   "type": "module",
-  "author": "RequiemOfSpirit",
-  "license": "ISC",
   "workspaces": [
     "packages/db",
     "packages/discord-bot"
-  ]
+  ],
+  "author": "RequiemOfSpirit",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RequiemOfSpirit/sheikah-slate-bot.git"
+  }
 }

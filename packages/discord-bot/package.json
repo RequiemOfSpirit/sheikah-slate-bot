@@ -1,7 +1,7 @@
 {
   "name": "@sheikah-slate-bot/discord-bot",
   "version": "0.0.0",
-  "description": "Discord bot component of the project.",
+  "description": "Discord bot component of the project",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
