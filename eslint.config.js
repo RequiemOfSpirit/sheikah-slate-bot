@@ -68,6 +68,16 @@ export default tsEslint.config(
     ...tsEslint.configs.disableTypeChecked,
   },
 
+  /* Temporary settings for files in the docs folder */
+  {
+    files: ['docs/*.js'],
+    languageOptions: {
+      globals: {
+        ...globals.browser,
+      },
+    },
+  },
+
   /* Test specific overrides */
   {
     files: ['**/*.test.ts'],

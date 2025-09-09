@@ -1,0 +1,174 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f9f9f9;
+  color: #333;
+}
+
+/* Header styles */
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  background-color: #121212;
+  color: #e0e0e0;
+  border-bottom: 1px solid #ddd;
+}
+
+header img {
+  height: 40px;
+}
+
+#header-icon {
+  margin-right: 1rem;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+}
+
+.github-link {
+  text-decoration: none;
+  color: #333;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+}
+
+/* Body styles */
+main {
+  display: flex;
+  justify-content: center;
+}
+
+table {
+  width: 90%;
+  border: 1px solid #ddd;
+  border-collapse: collapse;
+  margin: 20px 0;
+}
+
+tbody tr:nth-child(even) {
+  background: #f7f7f7;
+}
+
+tbody tr:nth-child(odd) {
+  background: #fff;
+}
+
+tr th:first-child,
+tr td:first-child {
+  padding-right: 2rem;
+}
+
+th,
+td {
+  padding: 0.75rem;
+  text-align: left;
+}
+
+th {
+  font-size: 1.2rem;
+  border-bottom: 1px solid #ddd;
+  background-color: #f0f0f0;
+}
+
+#command-table-header {
+  text-align: right;
+  width: 25%;
+}
+
+.command-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.5rem;
+}
+
+.command-title {
+  font-size: 1rem;
+  margin-right: 0.25rem;
+}
+
+.chip {
+  display: inline-block;
+  padding: 5px 10px;
+  background-color: #25aae3;
+  color: #fff;
+  font-size: 12px;
+  font-family: monospace;
+  border-radius: 16px;
+}
+
+.chip-container {
+  display: flex;
+  gap: 5px;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  header h1 {
+    font-size: 1.2rem;
+  }
+
+  main {
+    padding: 0 0.25rem;
+  }
+
+  table {
+    width: 100%;
+  }
+
+  th {
+    font-size: 1rem;
+    padding: 0.4rem;
+  }
+
+  td {
+    font-size: 0.8rem;
+    padding: 0.4rem;
+  }
+
+  #command-table-header {
+    width: initial;
+  }
+
+  .command-title {
+    font-size: 0.8rem;
+  }
+
+  .chip {
+    font-size: 0.7rem;
+    padding: 4px 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  header h1 {
+    font-size: 1rem;
+  }
+
+  th {
+    font-size: 0.85rem;
+    padding: 0.3rem;
+  }
+
+  td {
+    font-size: 0.7rem;
+    padding: 0.3rem;
+  }
+
+  .command-title {
+    font-size: 0.7rem;
+  }
+
+  .chip {
+    font-size: 0.6rem;
+    padding: 3px 6px;
+  }
+}
