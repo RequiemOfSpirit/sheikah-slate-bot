@@ -14,7 +14,7 @@ const commandsData = [
     title: 'About',
     response: 'Information about the Sheikah Slate bot.',
     commands: ['!info', '!details'],
-  }
+  },
 ];
 
 // Function to populate the table
@@ -39,7 +39,7 @@ const commandsData = [
     // Add commands as chips
     const chipContainer = document.createElement('div');
     chipContainer.classList.add('chip-container');
-    commands.forEach(command => {
+    commands.forEach((command) => {
       const chip = document.createElement('span');
       chip.classList.add('chip');
       chip.textContent = command;
@@ -49,7 +49,8 @@ const commandsData = [
 
     // Create the response cell
     const responseCell = document.createElement('td');
-    responseCell.textContent = response;
+    // Render line breaks and replace URLs with actual links
+    responseCell.innerHTML = response.replace(/\n/g, ' <br> ').replace(/(https?:\/\/[^\s]+)/g, '<a href="$1">$1</a>');
 
     // Append cells to the row
     row.appendChild(commandCellContainer);

@@ -78,6 +78,14 @@ th {
   background-color: #f0f0f0;
 }
 
+a {
+  color: #1293ca;
+}
+
+a:visited {
+  color: #6a5acd;
+}
+
 #command-table-header {
   text-align: right;
   width: 25%;
