@@ -11,10 +11,13 @@ header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1rem;
   background-color: #121212;
   color: #e0e0e0;
   border-bottom: 1px solid #ddd;
+}
+
+header > * {
+  padding: 1rem;
 }
 
 header img {
@@ -33,11 +36,16 @@ header h1 {
 }
 
 .github-link {
-  text-decoration: none;
-  color: #333;
-  font-size: 16px;
-  display: flex;
-  align-items: center;
+  background-color: #121212;
+  transition: background-color 0.2s;
+}
+
+.github-link img {
+  display: block;
+}
+
+.github-link:hover {
+  background-color: #333;
 }
 
 /* Body styles */
