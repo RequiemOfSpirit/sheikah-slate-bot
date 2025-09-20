@@ -78,6 +78,11 @@ th,
 td {
   padding: 0.75rem;
   text-align: left;
+  word-break: break-word;
+}
+
+td * {
+  word-break: break-word;
 }
 
 th {
@@ -102,8 +107,8 @@ a:visited {
 .command-cell {
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
   gap: 0.5rem;
+  text-align: right;
 }
 
 .command-title {
@@ -112,7 +117,6 @@ a:visited {
 }
 
 .chip {
-  display: inline-block;
   padding: 5px 10px;
   background-color: #25aae3;
   color: #fff;
@@ -123,13 +127,23 @@ a:visited {
 
 .chip-container {
   display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
   gap: 5px;
 }
 
 /* Responsive styles */
-@media (max-width: 768px) {
+@media (max-width: 900px) {
   header h1 {
     font-size: 1.2rem;
+  }
+
+  header img {
+    height: 35px;
+  }
+
+  header > * {
+    padding: 0.8rem;
   }
 
   main {
@@ -151,7 +165,11 @@ a:visited {
   }
 
   #command-table-header {
-    width: initial;
+    width: 30%;
+  }
+
+  .command-cell {
+    margin: 0.25rem 0;
   }
 
   .command-title {
@@ -162,11 +180,23 @@ a:visited {
     font-size: 0.7rem;
     padding: 4px 8px;
   }
+
+  .chip-container {
+    gap: 4px;
+  }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 700px) {
   header h1 {
     font-size: 1rem;
+  }
+
+  header img {
+    height: 30px;
+  }
+
+  header > * {
+    padding: 0.7rem;
   }
 
   th {
@@ -186,5 +216,46 @@ a:visited {
   .chip {
     font-size: 0.6rem;
     padding: 3px 6px;
+  }
+
+  .chip-container {
+    gap: 3px;
+  }
+}
+
+@media (max-width: 480px) {
+  header h1 {
+    font-size: 0.9rem;
+  }
+
+  header img {
+    height: 25px;
+  }
+
+  header > * {
+    padding: 0.6rem;
+  }
+
+  th {
+    font-size: 0.75rem;
+    padding: 0.2rem;
+  }
+
+  td {
+    font-size: 0.6rem;
+    padding: 0.2rem;
+  }
+
+  .command-title {
+    font-size: 0.6rem;
+  }
+
+  .chip {
+    font-size: 0.5rem;
+    padding: 2px 5px;
+  }
+
+  .chip-container {
+    gap: 2px;
   }
 }
