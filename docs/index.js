@@ -33,11 +33,11 @@ const commandsData = [
       'Skew and ragdoll glitch are completely unrelated, with the exception that both are related to/involve unequipping shield midair during a shield surf. Video covering the differences: https://youtu.be/8bfZ4o-OMDg',
     commands: ['!skewvsragdoll'],
   },
-  // {
-  //   title: 'Gamer windbomb',
-  //   response: 'TODO Fill this',
-  //   commands: ['!gamerwb'],
-  // },
+  {
+    title: 'Gamer windbomb guide',
+    response: 'https://youtu.be/1dy_ochgC88',
+    commands: ['!gamerwb'],
+  },
   {
     title: 'Canal windbomb guide',
     response: 'https://x.com/OnyxEbony3/status/1482671152367484929',
