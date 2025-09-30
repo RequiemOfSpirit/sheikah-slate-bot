@@ -2,6 +2,7 @@
   "files": [],
   "references": [
     { "path": "./tsconfig.config.json" },
+    { "path": "./packages/api/tsconfig.json" },
     { "path": "./packages/db/tsconfig.json" },
     { "path": "./packages/discord-bot/tsconfig.json" },
   ],

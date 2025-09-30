@@ -16,6 +16,7 @@
   },
   "type": "module",
   "workspaces": [
+    "packages/api",
     "packages/db",
     "packages/discord-bot"
   ],
