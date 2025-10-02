@@ -17,14 +17,17 @@
   "dependencies": {
     "@dotenvx/dotenvx": "^1.48.4",
     "@fastify/postgres": "^6.0.2",
+    "@fastify/type-provider-typebox": "^6.0.0",
     "fastify": "^5.6.1",
     "fastify-plugin": "^5.1.0",
-    "pg": "^8.16.3"
+    "pg": "^8.16.3",
+    "typebox": "^1.0.25"
   },
   "devDependencies": {
     "@eslint/js": "^9.33.0",
     "@ianvs/prettier-plugin-sort-imports": "^4.6.2",
     "@stylistic/eslint-plugin": "^5.2.3",
+    "@types/node": "^22.18.8",
     "@types/pg": "^8.15.5",
     "eslint": "^9.33.0",
     "eslint-config-prettier": "^10.1.8",

@@ -1,7 +1,7 @@
 import Fastify, { FastifyInstance } from 'fastify';
 import { postgresConnector } from './plugins/postgres-connector.ts';
 import { resourceDao } from './plugins/resource-dao.ts';
-import { resourceRoutes } from './routes/resources.ts';
+import { resourceRoutes } from './routes/resources/index.ts';
 
 const fastify: FastifyInstance = Fastify({ logger: true });
 

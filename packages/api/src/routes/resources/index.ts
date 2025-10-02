@@ -1,0 +1,19 @@
+import { FastifyInstance } from 'fastify';
+import { Resource } from '../../model/resources.ts';
+import { GetResourcesRouteInterface, getResourcesSchema } from './schema.ts';
+
+export const resourceRoutes = (fastify: FastifyInstance) => {
+  fastify.get<GetResourcesRouteInterface>('/', { schema: getResourcesSchema }, async (request) => {
+    /* List resources */
+    if (request.query.commandName === undefined) {
+      const resources: Resource[] = await fastify.resourceDao.getResources();
+      return { resources };
+    }
+
+    /* Query resources by command name */
+    const singletonResourceList: Resource[] = await fastify.resourceDao.queryResourcesByCommand(
+      request.query.commandName,
+    );
+    return { resources: singletonResourceList };
+  });
+};
