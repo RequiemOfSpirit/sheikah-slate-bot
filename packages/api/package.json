@@ -4,22 +4,32 @@
   "description": "API server that provides basic CRUDL for Sheikah Slate Resources",
   "exports": {
     ".": {
-      "import": "./dist/app.js",
-      "types": "./dist/app.d.ts"
+      "import": "./build/dist/app.js",
+      "types": "./build/dist/app.d.ts"
+    },
+    "./client": {
+      "import": "./build/dist/client/index.js",
+      "types": "./build/dist/client/index.d.ts"
+    },
+    "./client-utils": {
+      "import": "./build/dist/client/client/index.js",
+      "types": "./build/dist/client/client/index.d.ts"
     }
   },
   "scripts": {
-    "clean:dist": "rm -rf dist",
-    "clean": "npm run clean:dist && rm -rf node_modules",
+    "clean:build": "rm -rf build",
+    "clean": "npm run clean:build && rm -rf node_modules",
     "lint:fix": "eslint --fix --cache --cache-location ./node_modules/.cache/.eslintcache/ --report-unused-disable-directives --max-warnings 0 && prettier --cache -w .",
     "dev": "tsx watch src/server.ts",
     "prebuild": "npm run lint:fix",
     "build": "npm run dist",
-    "predist": "npm run clean:dist",
+    "predist": "npm run clean:build",
     "dist": "tsc",
-    "postdist": "npm run openapi:generate",
-    "openapi:generate": "node scripts/generate-openapi-spec.js",
-    "start": "node dist/server.js"
+    "postdist": "npm run spec:generate && npm run client:generate && npm run client:build",
+    "spec:generate": "node scripts/generate-openapi-spec.js",
+    "client:generate": "openapi-ts",
+    "client:build": "tsc -p tsconfig.client.json",
+    "start": "node build/dist/server.js"
   },
   "type": "module",
   "dependencies": {
@@ -34,6 +44,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.33.0",
+    "@hey-api/openapi-ts": "^0.84.4",
     "@ianvs/prettier-plugin-sort-imports": "^4.6.2",
     "@stylistic/eslint-plugin": "^5.2.3",
     "@types/node": "^22.18.8",

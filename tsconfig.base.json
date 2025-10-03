@@ -6,7 +6,7 @@
 
     /* Module and Environment */
     "target": "ESNext",
-    "module": "NodeNext",
+    "module": "nodenext",
     "moduleResolution": "nodenext",
     "skipLibCheck": true,
 

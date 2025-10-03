@@ -1,3 +1,4 @@
 {
   "extends": "../../tsconfig.node.base.json",
+  "exclude": ["build", "node_modules", "openapi-ts.config.ts"],
 }

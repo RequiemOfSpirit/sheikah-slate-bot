@@ -12,7 +12,7 @@ import tsEslint from 'typescript-eslint';
 const tsEslintParserOptions = {
   languageOptions: {
     parserOptions: {
-      project: ['./packages/**/tsconfig.json', './tsconfig.config.json'],
+      project: ['./packages/**/tsconfig.json', './packages/**/tsconfig.config.json', './tsconfig.config.json'],
       tsconfigRootDir: import.meta.dirname,
     },
   },
@@ -32,7 +32,7 @@ export default tsEslint.config(
 
   /* Global ignores */
   {
-    ignores: ['**/dist', '**/node_modules'],
+    ignores: ['**/build', '**/node_modules'],
   },
 
   /* Global settings */

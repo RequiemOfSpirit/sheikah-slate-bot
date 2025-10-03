@@ -2,18 +2,18 @@
   "name": "@sheikah-slate-bot/discord-bot",
   "version": "0.0.0",
   "description": "Discord bot component of the project",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "build/dist/index.js",
+  "types": "build/dist/index.d.ts",
   "scripts": {
-    "clean:dist": "rm -rf dist",
-    "clean": "npm run clean:dist && rm -rf node_modules",
+    "clean:build": "rm -rf build",
+    "clean": "npm run clean:build && rm -rf node_modules",
     "lint:fix": "eslint --fix --cache --cache-location ./node_modules/.cache/.eslintcache/ --report-unused-disable-directives --max-warnings 0 && prettier --cache -w .",
     "dev": "tsx watch src/index.ts",
     "prebuild": "npm run lint:fix",
     "build": "npm run dist",
-    "predist": "npm run clean:dist",
+    "predist": "npm run clean:build",
     "dist": "tsc",
-    "start": "node dist/index.js"
+    "start": "node build/dist/index.js"
   },
   "type": "module",
   "dependencies": {

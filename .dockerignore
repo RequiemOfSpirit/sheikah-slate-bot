@@ -1,6 +1,6 @@
 # Dependencies and build outputs
 **/node_modules
-**/dist
+**/build
 
 # Git-related files
 .git

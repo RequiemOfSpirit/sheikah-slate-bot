@@ -1,10 +1,10 @@
 /* Base TSConfig settings for projects run in node environments */
 {
   "extends": "./tsconfig.base.json",
-  "exclude": ["${configDir}/dist", "${configDir}/node_modules"],
+  "exclude": ["${configDir}/build", "${configDir}/node_modules"],
   "compilerOptions": {
     /* Project */
-    "tsBuildInfoFile": "${configDir}/dist/.tsbuildinfo/tsconfig.tsbuildinfo",
+    "tsBuildInfoFile": "${configDir}/build/.tsbuildinfo/tsconfig.tsbuildinfo",
 
     /* Module and Environment */
     "types": ["node"],
@@ -12,7 +12,7 @@
     "rewriteRelativeImportExtensions": true,
 
     /* Output */
-    "outDir": "${configDir}/dist",
+    "outDir": "${configDir}/build/dist",
     "removeComments": true,
   },
 }

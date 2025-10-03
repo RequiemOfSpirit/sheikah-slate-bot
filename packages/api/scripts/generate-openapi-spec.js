@@ -20,4 +20,5 @@ fastify.register(app);
 await fastify.ready();
 
 const openApiSpec = fastify.swagger();
-fs.writeFileSync('dist/openapi.json', JSON.stringify(openApiSpec));
+fs.mkdirSync('build/spec');
+fs.writeFileSync('build/spec/openapi.json', JSON.stringify(openApiSpec));
