@@ -1,10 +1,11 @@
 import { Client, Colors, EmbedBuilder, Events, GatewayIntentBits, Message } from 'discord.js';
-import { Resource, SheikahSlateDao } from '@sheikah-slate-bot/db';
-import { DATABASE_URL, DISCORD_TOKEN } from './utils/env.ts';
+import { SheikahSlateBotApiClient } from '@sheikah-slate-bot/api/client';
+import { createClient, createConfig } from '@sheikah-slate-bot/api/client-utils';
+import { BASE_API_URL, DISCORD_TOKEN } from './utils/env.ts';
 
 const COMMAND_PREFIX = '!';
 
-const client = new Client({
+const discordClient = new Client({
   intents: [
     GatewayIntentBits.Guilds,
     GatewayIntentBits.GuildMessages,
@@ -12,34 +13,49 @@ const client = new Client({
     GatewayIntentBits.MessageContent,
   ],
 });
+const apiClient = new SheikahSlateBotApiClient({
+  client: createClient(createConfig({ baseUrl: BASE_API_URL })),
+});
 
-const dao = new SheikahSlateDao(DATABASE_URL);
-
-client.once(Events.ClientReady, (readyClient: Client<true>) => {
+discordClient.once(Events.ClientReady, (readyClient: Client<true>) => {
   console.log(`Ready! Logged in as ${readyClient.user.tag}`);
   console.log(readyClient.guilds);
 });
 
-client.on('messageCreate', async (message: Message) => {
+discordClient.on('messageCreate', async (message: Message) => {
   if (!message.content.startsWith(COMMAND_PREFIX)) {
     return;
   }
 
   // Remove the prefix, grab first word and convert to lowercase
   const command = message.content.slice(1).split(' ')[0].toLowerCase();
-  const resource: Resource | undefined = await dao.getResource(command);
+
+  // Query API for resource
+  const apiResponse = await apiClient.getResources({ query: { commandName: command } });
+  if (apiResponse.error) {
+    console.error(apiResponse.error);
+    return;
+  }
+
+  const resource = apiResponse.data?.resources[0];
   if (!resource) {
     console.log(`Command '${message.content}' not found`);
     return;
   }
 
-  console.log(`Processing command '${message.content}'`);
+  // Send discord response
+  console.log(`Sending response for command '${message.content}'`);
 
-  const response = new EmbedBuilder().setColor(Colors.Blue).setTitle(resource.title).setDescription(resource.content);
-  if (resource.aliases.length > 1) {
-    response.setFooter({ text: `Aliases: ${resource.aliases.join(', ')}` });
+  const discordReply = new EmbedBuilder()
+    .setColor(Colors.Blue)
+    .setTitle(resource.title)
+    .setDescription(resource.content);
+
+  if (resource.commands.length > 1) {
+    discordReply.setFooter({ text: `Aliases: ${resource.commands.join(', ')}` });
   }
-  void message.reply({ embeds: [response] });
+
+  void message.reply({ embeds: [discordReply] });
 });
 
-void client.login(DISCORD_TOKEN);
+void discordClient.login(DISCORD_TOKEN);

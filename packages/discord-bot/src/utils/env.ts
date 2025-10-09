@@ -1,3 +1,3 @@
 import '@dotenvx/dotenvx/config';
 
-export const { DATABASE_URL, DISCORD_TOKEN } = process.env;
+export const { BASE_API_URL, DISCORD_TOKEN } = process.env;

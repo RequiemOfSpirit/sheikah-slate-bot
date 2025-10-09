@@ -18,7 +18,7 @@
   "type": "module",
   "dependencies": {
     "@dotenvx/dotenvx": "^1.48.4",
-    "@sheikah-slate-bot/db": "*",
+    "@sheikah-slate-bot/api": "*",
     "discord.js": "^14.21.0"
   },
   "devDependencies": {
