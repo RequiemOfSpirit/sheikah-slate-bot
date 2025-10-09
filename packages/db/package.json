@@ -1,17 +1,11 @@
 {
   "name": "@sheikah-slate-bot/db",
   "version": "0.0.0",
-  "description": "Common DB library meant to be used by other bots in the project. Will be replaced by an API workspace in the future.",
-  "main": "build/dist/index.js",
-  "types": "build/dist/index.d.ts",
+  "description": "DB library used to manage db migrations and temp scripts that modify db data directly.",
   "scripts": {
-    "clean:build": "rm -rf build",
-    "clean": "npm run clean:build && rm -rf node_modules",
-    "lint:fix": "eslint --fix --cache --cache-location ./node_modules/.cache/.eslintcache/ --report-unused-disable-directives --max-warnings 0 && prettier --cache -w .",
-    "prebuild": "npm run lint:fix && npm run clean:build",
-    "build": "tsc",
-    "predist": "npm run clean:build",
-    "dist": "tsc -p tsconfig.production.json",
+    "clean": "",
+    "build": "",
+    "dist": "",
     "db:make": "node-pg-migrate create -j sql",
     "db:migrate": "node-pg-migrate up",
     "db:migrate:down": "node-pg-migrate down"
@@ -19,19 +13,6 @@
   "type": "module",
   "dependencies": {
     "dotenv": "^17.2.1",
-    "node-pg-migrate": "^8.0.3",
-    "pg": "^8.16.3"
-  },
-  "devDependencies": {
-    "@eslint/js": "^9.33.0",
-    "@ianvs/prettier-plugin-sort-imports": "^4.6.2",
-    "@stylistic/eslint-plugin": "^5.2.3",
-    "@types/node": "^22.18.8",
-    "@types/pg": "^8.15.5",
-    "eslint": "^9.33.0",
-    "eslint-config-prettier": "^10.1.8",
-    "prettier": "^3.6.2",
-    "typescript": "^5.9.2",
-    "typescript-eslint": "^8.39.1"
+    "node-pg-migrate": "^8.0.3"
   }
 }
