@@ -34,6 +34,18 @@ services:
     networks:
       - app-network
 
+  # API Service
+  api:
+    image: sheikah-slate-bot/api
+    container_name: sheikah-slate-bot_api
+    build:
+      dockerfile: ./packages/api/Dockerfile
+    depends_on:
+      database-migrations:
+        condition: service_completed_successfully
+    networks:
+      - app-network
+
   # Discord Bot
   discord-bot:
     image: sheikah-slate-bot/discord-bot
@@ -41,8 +53,7 @@ services:
     build:
       dockerfile: ./packages/discord-bot/Dockerfile
     depends_on:
-      database-migrations:
-        condition: service_completed_successfully
+      - api
     networks:
       - app-network
 
