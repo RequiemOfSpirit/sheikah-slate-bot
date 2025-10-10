@@ -1,6 +1,6 @@
 {
   "name": "@sheikah-slate-bot/api",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "API server that provides basic CRUDL for Sheikah Slate Resources",
   "exports": {
     ".": {

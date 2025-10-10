@@ -1,6 +1,6 @@
 {
   "name": "@sheikah-slate-bot/db",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "DB library used to manage db migrations and temp scripts that modify db data directly.",
   "scripts": {
     "clean": "",

@@ -1,6 +1,6 @@
 {
   "name": "sheikah-slate-bot",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "A set of multiplatform bots and tools for the Breath of the Wild community that provide a repository of helpful links and resources",
   "scripts": {
     "clean:root": "rm -rf node_modules",
