@@ -33,27 +33,27 @@
   },
   "type": "module",
   "dependencies": {
-    "@dotenvx/dotenvx": "^1.48.4",
+    "@dotenvx/dotenvx": "^1.51.0",
     "@fastify/postgres": "^6.0.2",
     "@fastify/swagger": "^9.5.2",
     "@fastify/type-provider-typebox": "^6.0.0",
     "fastify": "^5.6.1",
     "fastify-plugin": "^5.1.0",
     "pg": "^8.16.3",
-    "typebox": "^1.0.25"
+    "typebox": "^1.0.30"
   },
   "devDependencies": {
-    "@eslint/js": "^9.33.0",
-    "@hey-api/openapi-ts": "^0.84.4",
-    "@ianvs/prettier-plugin-sort-imports": "^4.6.2",
-    "@stylistic/eslint-plugin": "^5.2.3",
-    "@types/node": "^22.18.8",
+    "@eslint/js": "^9.37.0",
+    "@hey-api/openapi-ts": "^0.85.1",
+    "@ianvs/prettier-plugin-sort-imports": "^4.7.0",
+    "@stylistic/eslint-plugin": "^5.4.0",
+    "@types/node": "^22.18.9",
     "@types/pg": "^8.15.5",
-    "eslint": "^9.33.0",
+    "eslint": "^9.37.0",
     "eslint-config-prettier": "^10.1.8",
     "prettier": "^3.6.2",
-    "tsx": "^4.20.4",
-    "typescript": "^5.9.2",
-    "typescript-eslint": "^8.39.1"
+    "tsx": "^4.20.6",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.46.0"
   }
 }
