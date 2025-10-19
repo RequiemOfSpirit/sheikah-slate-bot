@@ -158,6 +158,12 @@ const commandsData = [
       'You are free to do runs or practice on any emulator as you see fit. However, emulators are not allowed for leaderboard submissions.',
     commands: ['!lbemulators', '!lbemu'],
   },
+  {
+    title: 'Cemu FPS++ settings',
+    response:
+      "If you're having issues with performing any physics based tricks on Cemu, make sure you have FPS++ either set to 30fps or disabled. Most physics based tricks do not work as expected (or at all) at frame rates higher than 30fps.",
+    commands: ['!fps++', '!cemufps++'],
+  },
   // {
   //   title: 'Downpatching',
   //   response: 'TODO Fill this',
