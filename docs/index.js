@@ -164,11 +164,24 @@ const commandsData = [
       "If you're having issues with performing any physics based tricks on Cemu, make sure you have FPS++ either set to 30fps or disabled. Most physics based tricks do not work as expected (or at all) at frame rates higher than 30fps.",
     commands: ['!fps++', '!cemufps++'],
   },
-  // {
-  //   title: 'Downpatching',
-  //   response: 'TODO Fill this',
-  //   commands: ['!downpatch', '!downpatching'],
-  // },
+  {
+    title: 'Downpatching',
+    response: `Homebrew: !homebrewdownpatch
+      Stock OS: !stockdownpatch`,
+    commands: ['!downpatch', '!downpatching'],
+  },
+  {
+    title: 'Downpatching with Homebrew',
+    response: `Uninstall v1.8 and install a previously dumped copy of v1.6 using Goldleaf. You will need to reset launch version after downpatching.
+      Note: You will be unable to play any saves made on v1.8 on prior versions.`,
+    commands: ['!homebrewdownpatch', '!homebrewdownpatching'],
+  },
+  {
+    title: 'Downpatching on Stock Switch OS without Homebrew',
+    response:
+      'Factory reset your Switch and turn off "Auto-Update Software" in system settings. You can now play on any v1.0-v1.6 game card. If on a pre-v1.6 version, you can use local version matching with another Switch that has v1.6 to upgrade.',
+    commands: ['!stockdownpatch', '!stockdownpatching'],
+  },
   {
     title: 'D-Pad fix',
     response:
