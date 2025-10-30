@@ -31,7 +31,7 @@ while true; do
     fi
     echo -e "\033[1;32mInserted command with ID: $COMMAND_ID\033[0m"
 
-    read -p "> Do you want to another command ID/alias? (y/N): " NEW_ALIAS
+    read -p "> Do you want to add another command ID/alias? (y/N): " NEW_ALIAS
     if [[ "$NEW_ALIAS" != "y" && "$NEW_ALIAS" != "Y" ]]; then
       break
     fi
