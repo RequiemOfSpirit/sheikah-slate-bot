@@ -1,7 +1,7 @@
 import { Client, Colors, EmbedBuilder, Events, GatewayIntentBits, Message } from 'discord.js';
 import { SheikahSlateBotApiClient } from '@sheikah-slate-bot/api/client';
 import { createClient, createConfig } from '@sheikah-slate-bot/api/client-utils';
-import { BASE_API_URL, DISCORD_TOKEN } from './utils/env.ts';
+import { BASE_API_URL, DISCORD_BOT_TOKEN } from './utils/env.ts';
 
 const COMMAND_PREFIX = '!';
 
@@ -58,4 +58,4 @@ discordClient.on('messageCreate', async (message: Message) => {
   void message.reply({ embeds: [discordReply] });
 });
 
-void discordClient.login(DISCORD_TOKEN);
+void discordClient.login(DISCORD_BOT_TOKEN);
