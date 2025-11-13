@@ -1,0 +1,37 @@
+{
+  "name": "@sheikah-slate-bot/twitch-bot",
+  "version": "1.0.0",
+  "description": "Twitch bot component of the project",
+  "main": "build/dist/index.js",
+  "types": "build/dist/index.d.ts",
+  "scripts": {
+    "clean:build": "rm -rf build",
+    "clean": "npm run clean:build && rm -rf node_modules",
+    "lint:fix": "eslint --fix --cache --cache-location ./node_modules/.cache/.eslintcache/ --report-unused-disable-directives --max-warnings 0 && prettier --cache -w .",
+    "dev": "tsx watch src/index.ts",
+    "prebuild": "npm run lint:fix",
+    "build": "npm run dist",
+    "predist": "npm run clean:build",
+    "dist": "tsc",
+    "start": "node build/dist/index.js"
+  },
+  "type": "module",
+  "dependencies": {
+    "@dotenvx/dotenvx": "^1.51.0",
+    "@sheikah-slate-bot/api": "*",
+    "@twurple/api": "^7.4.0",
+    "@twurple/auth": "^7.4.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.37.0",
+    "@ianvs/prettier-plugin-sort-imports": "^4.7.0",
+    "@stylistic/eslint-plugin": "^5.4.0",
+    "@types/node": "^22.18.9",
+    "eslint": "^9.37.0",
+    "eslint-config-prettier": "^10.1.8",
+    "prettier": "^3.6.2",
+    "tsx": "^4.20.6",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.46.0"
+  }
+}
