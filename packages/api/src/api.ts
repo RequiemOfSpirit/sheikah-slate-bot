@@ -5,8 +5,15 @@ import { resourceDao } from './plugins/resource-dao.ts';
 import { resourceRoutes } from './routes/resources/index.ts';
 
 // Exposed as a separate plugin to allow easy OpenAPI spec generation
-export const app = fastifyPlugin((fastify: FastifyInstance) => {
+export const publicApis = fastifyPlugin((fastify: FastifyInstance) => {
   fastify.register(postgresConnector);
   fastify.register(resourceDao);
   fastify.register(resourceRoutes, { prefix: '/resources' });
+});
+
+export const publicAndInternalApis = fastifyPlugin((fastify: FastifyInstance) => {
+  // Register postgres connector and all existing public routes
+  fastify.register(publicApis);
+
+  // Additional internal routes
 });

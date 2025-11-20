@@ -1,24 +1,46 @@
 import fs from 'fs';
 import fastifySwagger from '@fastify/swagger';
 import Fastify from 'fastify';
-import { app } from '@sheikah-slate-bot/api';
+import { publicAndInternalApis, publicApis } from '@sheikah-slate-bot/api';
 
-const fastify = Fastify();
+// Initial setup
+fs.mkdirSync('build/spec', { recursive: true });
 
-await fastify.register(fastifySwagger, {
+// Spec for public APIs
+const publicFastifyInstance = Fastify();
+await publicFastifyInstance.register(fastifySwagger, {
   openapi: {
     openapi: '3.0.4',
     info: {
       title: 'Sheikah Slate Bot API',
-      description: 'APIs that provide basic CRUDL operations for Sheikah Slate Resources',
+      description: 'Public APIs that provide basic CRUDL operations for Sheikah Slate Resources',
       version: '1.0.0',
     },
   },
 });
 
-fastify.register(app);
-await fastify.ready();
+publicFastifyInstance.register(publicApis);
+await publicFastifyInstance.ready();
 
-const openApiSpec = fastify.swagger();
-fs.mkdirSync('build/spec');
-fs.writeFileSync('build/spec/openapi.json', JSON.stringify(openApiSpec));
+const publicOpenApiSpec = publicFastifyInstance.swagger();
+fs.writeFileSync('build/spec/openapi-public.json', JSON.stringify(publicOpenApiSpec));
+
+// Spec for internal APIs
+const internalFastifyInstance = Fastify();
+await internalFastifyInstance.register(fastifySwagger, {
+  openapi: {
+    openapi: '3.0.4',
+    info: {
+      title: 'Sheikah Slate Bot API (Internal)',
+      description:
+        'Internal APIs that provide basic CRUDL operations for Sheikah Slate Resources and CRUDL operations for connected Twitch channels',
+      version: '1.0.0',
+    },
+  },
+});
+
+internalFastifyInstance.register(publicAndInternalApis);
+await internalFastifyInstance.ready();
+
+const internalOpenApiSpec = internalFastifyInstance.swagger();
+fs.writeFileSync('build/spec/openapi-internal.json', JSON.stringify(internalOpenApiSpec));

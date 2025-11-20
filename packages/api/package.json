@@ -1,35 +1,43 @@
 {
   "name": "@sheikah-slate-bot/api",
   "version": "1.0.0",
-  "description": "API server that provides basic CRUDL for Sheikah Slate Resources",
+  "description": "APIs that provide basic CRUDL operations for Sheikah Slate Resources and CRUDL operations for connected Twitch channels",
   "exports": {
     ".": {
-      "import": "./build/dist/app.js",
-      "types": "./build/dist/app.d.ts"
+      "import": "./build/dist/api.js",
+      "types": "./build/dist/api.d.ts"
     },
     "./client": {
-      "import": "./build/dist/client/index.js",
-      "types": "./build/dist/client/index.d.ts"
+      "import": "./build/dist/client/public/index.js",
+      "types": "./build/dist/client/public/index.d.ts"
     },
     "./client-utils": {
-      "import": "./build/dist/client/client/index.js",
-      "types": "./build/dist/client/client/index.d.ts"
+      "import": "./build/dist/client/public/client/index.js",
+      "types": "./build/dist/client/public/client/index.d.ts"
+    },
+    "./client/internal": {
+      "import": "./build/dist/client/internal/index.js",
+      "types": "./build/dist/client/internal/index.d.ts"
     }
   },
   "scripts": {
     "clean:build": "rm -rf build",
     "clean": "npm run clean:build && rm -rf node_modules",
     "lint:fix": "eslint --fix --cache --cache-location ./node_modules/.cache/.eslintcache/ --report-unused-disable-directives --max-warnings 0 && prettier --cache -w .",
-    "dev": "tsx watch src/server.ts",
+    "dev:public": "tsx watch src/public-server.ts",
+    "dev:internal": "tsx watch src/internal-server.ts",
+    "dev": "concurrently --kill-others 'npm run dev:internal' 'npm run dev:public'",
     "prebuild": "npm run lint:fix",
     "build": "npm run dist",
     "predist": "npm run clean:build",
     "dist": "tsc",
     "postdist": "npm run spec:generate && npm run client:generate && npm run client:build",
     "spec:generate": "node scripts/generate-openapi-spec.js",
-    "client:generate": "openapi-ts",
+    "client:generate": "openapi-ts -f openapi-ts.public.config.ts && openapi-ts -f openapi-ts.internal.config.ts",
     "client:build": "tsc -p tsconfig.client.json",
-    "start": "node build/dist/server.js"
+    "start:public": "node build/dist/public-server.js",
+    "start:internal": "node build/dist/internal-server.js",
+    "start": "concurrently --kill-others 'npm run start:internal' 'npm run start:public'"
   },
   "type": "module",
   "dependencies": {
@@ -49,6 +57,7 @@
     "@stylistic/eslint-plugin": "^5.4.0",
     "@types/node": "^22.18.9",
     "@types/pg": "^8.15.5",
+    "concurrently": "^9.2.1",
     "eslint": "^9.37.0",
     "eslint-config-prettier": "^10.1.8",
     "prettier": "^3.6.2",

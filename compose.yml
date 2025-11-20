@@ -9,7 +9,8 @@ services:
     volumes:
       - app-db-data:/var/lib/postgresql/data
     networks:
-      - app-network
+      - app-network-public
+      - app-network-internal
 
   # Simple service to wait for DB setup
   database-wait:
@@ -18,7 +19,8 @@ services:
     depends_on:
       - database
     networks:
-      - app-network
+      - app-network-public
+      - app-network-internal
     command: tcp database:5432 -t 30s -i 250ms
 
   # DB Migrations
@@ -32,19 +34,31 @@ services:
       database-wait:
         condition: service_completed_successfully
     networks:
-      - app-network
+      - app-network-public
+      - app-network-internal
 
   # API Service
-  api:
-    image: sheikah-slate-bot/api
-    container_name: sheikah-slate-bot_api
+  api-public:
+    image: sheikah-slate-bot/api/public
+    container_name: sheikah-slate-bot_api-public
     build:
-      dockerfile: ./packages/api/Dockerfile
+      dockerfile: ./packages/api/Dockerfile.public
     depends_on:
       database-migrations:
         condition: service_completed_successfully
     networks:
-      - app-network
+      - app-network-public
+
+  api-internal:
+    image: sheikah-slate-bot/api/internal
+    container_name: sheikah-slate-bot_api-internal
+    build:
+      dockerfile: ./packages/api/Dockerfile.internal
+    depends_on:
+      database-migrations:
+        condition: service_completed_successfully
+    networks:
+      - app-network-internal
 
   # Discord Bot
   discord-bot:
@@ -53,13 +67,15 @@ services:
     build:
       dockerfile: ./packages/discord-bot/Dockerfile
     depends_on:
-      - api
+      - api-internal
     networks:
-      - app-network
+      - app-network-internal
 
 networks:
-  app-network:
-    name: sheikah-slate-bot_network
+  app-network-public:
+    name: sheikah-slate-bot_network-public
+  app-network-internal:
+    name: sheikah-slate-bot_network-internal
 
 volumes:
   app-db-data:
