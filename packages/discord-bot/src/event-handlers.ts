@@ -1,11 +1,11 @@
 import { Colors, EmbedBuilder, Message } from 'discord.js';
-import { SheikahSlateBotApiClient } from '@sheikah-slate-bot/api/client';
 import { createClient, createConfig } from '@sheikah-slate-bot/api/client-utils';
+import { SheikahSlateBotInternalApiClient } from '@sheikah-slate-bot/api/client/internal';
 import { BASE_API_URL } from './utils/env.ts';
 
 const COMMAND_PREFIX = '!';
 
-const apiClient = new SheikahSlateBotApiClient({
+const apiClient = new SheikahSlateBotInternalApiClient({
   client: createClient(createConfig({ baseUrl: BASE_API_URL })),
 });
 
@@ -26,12 +26,12 @@ export const handleNewMessage = async (message: Message): Promise<void> => {
 
   const resource = apiResponse.data?.resources[0];
   if (!resource) {
-    console.log(`Command '${message.content}' not found`);
+    console.log(`Command '${command}' not found`);
     return;
   }
 
   // Send discord response
-  console.log(`Sending response for command '${message.content}'`);
+  console.log(`Sending response for command '${command}'`);
 
   const discordReply = new EmbedBuilder()
     .setColor(Colors.Blue)
