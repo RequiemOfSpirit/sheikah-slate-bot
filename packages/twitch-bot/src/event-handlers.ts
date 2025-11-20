@@ -1,12 +1,18 @@
+import { createClient, createConfig } from '@sheikah-slate-bot/api/client-utils';
+import { SheikahSlateBotInternalApiClient } from '@sheikah-slate-bot/api/client/internal';
 import { twitchApiClient } from './client/twitch-api-client.ts';
 import {
   CHANNEL_CHAT_MESSAGE_SUBSCRIPTION_DEFINITION_VERSION,
   CHANNEL_CHAT_MESSAGE_SUBSCRIPTION_TYPE,
   TwitchChatMessageEvent,
 } from './connection/twitch-message-types.ts';
-import { TWITCH_BOT_USER_ID } from './utils/env.ts';
+import { BASE_API_URL, TWITCH_BOT_USER_ID } from './utils/env.ts';
 
 const COMMAND_PREFIX = '!';
+
+const sheikahSlateBotApiClient = new SheikahSlateBotInternalApiClient({
+  client: createClient(createConfig({ baseUrl: BASE_API_URL })),
+});
 
 export const handleNewChatMessage = async (chatMessageEvent: TwitchChatMessageEvent): Promise<void> => {
   const splitMessage = chatMessageEvent.message.text.split(' ');
@@ -20,14 +26,27 @@ export const handleNewChatMessage = async (chatMessageEvent: TwitchChatMessageEv
   // Remove the prefix and convert to lowercase
   const command = firstWordInMessage.slice(1).toLowerCase();
 
-  const tempResponse = `Response for command: '${command}'`;
-  console.log(`Sending response for command '${command}'`);
+  // Query API for resource
+  const apiResponse = await sheikahSlateBotApiClient.getResources({ query: { commandName: command } });
+  if (apiResponse.error) {
+    console.error(apiResponse.error);
+    return;
+  }
+
+  const resource = apiResponse.data?.resources[0];
+  if (!resource) {
+    console.log(`Command '${command}' not found (Channel: '${chatMessageEvent.broadcaster_user_name}')`);
+    return;
+  }
+
+  // Send response to Twitch chat
+  console.log(`Sending response for command '${command}' (Channel: '${chatMessageEvent.broadcaster_user_name}')`);
 
   // TODO: Capture response and log errors
   await twitchApiClient.chat.sendChatMessageAsApp(
     TWITCH_BOT_USER_ID,
     chatMessageEvent.broadcaster_user_id,
-    tempResponse,
+    resource.content,
     {
       replyParentMessageId: chatMessageEvent.message_id,
     },
