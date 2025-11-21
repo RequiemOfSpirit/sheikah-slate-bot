@@ -1,13 +1,6 @@
 import { FastifySchema, RouteGenericInterface } from 'fastify';
 import Type, { type Static } from 'typebox';
-
-const ResourceSchema = Type.Object({
-  id: Type.String(),
-  title: Type.String(),
-  content: Type.String(),
-  commands: Type.Array(Type.String()),
-});
-export type ResourceSchemaType = Static<typeof ResourceSchema>;
+import { ResourceSchema } from '../../model/index.ts';
 
 /* `GET /resources` schema */
 const getResourcesQueryStringSchema = Type.Object({

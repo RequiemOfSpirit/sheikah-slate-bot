@@ -1,5 +1,5 @@
 import { FastifyInstance } from 'fastify';
-import { Resource } from '../../model/resources.ts';
+import { Resource } from '../../model/index.ts';
 import { GetResourcesRouteInterface, getResourcesSchema } from './schema.ts';
 
 export const resourceRoutes = (fastify: FastifyInstance) => {

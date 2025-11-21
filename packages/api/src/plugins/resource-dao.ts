@@ -1,6 +1,6 @@
 import { FastifyInstance, FastifyPluginDoneCallback, FastifyPluginOptions } from 'fastify';
 import fastifyPlugin, { PluginMetadata } from 'fastify-plugin';
-import { Resource } from '../model/resources.ts';
+import { Resource } from '../model/index.ts';
 
 declare module 'fastify' {
   interface FastifyInstance {
@@ -28,19 +28,17 @@ export const resourceDao = fastifyPlugin(
   (fastify: FastifyInstance, _opts: FastifyPluginOptions, done: FastifyPluginDoneCallback) => {
     fastify.decorate('resourceDao', {
       getResources: async (): Promise<Resource[]> => {
-        const query = {
-          text: `
-            SELECT
-              resource.id AS id,
-              resource.title AS title,
-              resource.content AS content,
-              array_agg(command.name) AS commands
-            FROM resources resource
-            INNER JOIN commands command
-              ON resource.id = command.resource_id
-            GROUP BY resource.id;
-          `,
-        };
+        const query = `
+          SELECT
+            resource.id AS id,
+            resource.title AS title,
+            resource.content AS content,
+            array_agg(command.name) AS commands
+          FROM resources resource
+          INNER JOIN commands command
+            ON resource.id = command.resource_id
+          GROUP BY resource.id;
+        `;
 
         const { rows } = await fastify.pg.query(query);
         return rows as Resource[];
