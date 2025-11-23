@@ -18,7 +18,7 @@ export const handleNewMessage = async (message: Message): Promise<void> => {
   const command = message.content.slice(1).split(' ')[0].toLowerCase();
 
   // Query API for resource
-  const apiResponse = await apiClient.getResources({ query: { commandName: command } });
+  const apiResponse = await apiClient.listResources({ query: { commandName: command } });
   if (apiResponse.error) {
     console.error(apiResponse.error);
     return;

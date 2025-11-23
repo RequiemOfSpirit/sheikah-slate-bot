@@ -3,15 +3,16 @@ import Type, { type Static } from 'typebox';
 import { TwitchChannelSchema } from '../../model/index.ts';
 
 /* `GET /twitch-channels` schema */
-const getTwitchChannelsResponseSchema = Type.Object({
+const listTwitchChannelsResponseSchema = Type.Object({
   twitchChannels: Type.Array(TwitchChannelSchema),
 });
-export interface GetTwitchChannelsRouteInterface extends RouteGenericInterface {
-  Reply: Static<typeof getTwitchChannelsResponseSchema>;
+export interface ListTwitchChannelsRouteInterface extends RouteGenericInterface {
+  Reply: Static<typeof listTwitchChannelsResponseSchema>;
 }
-export const getTwitchChannelsSchema: FastifySchema = {
+export const listTwitchChannelsSchema: FastifySchema = {
+  operationId: 'listTwitchChannels',
   response: {
-    200: getTwitchChannelsResponseSchema,
+    200: listTwitchChannelsResponseSchema,
   },
 };
 

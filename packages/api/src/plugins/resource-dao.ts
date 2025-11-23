@@ -8,7 +8,7 @@ declare module 'fastify' {
       /**
        * @returns List of all Resources in the database.
        */
-      getResources: () => Promise<Resource[]>;
+      listResources: () => Promise<Resource[]>;
 
       /**
        * @returns Singleton list containing the Resource linked to the requested command.
@@ -27,7 +27,7 @@ const pluginMetadata: PluginMetadata = {
 export const resourceDao = fastifyPlugin(
   (fastify: FastifyInstance, _opts: FastifyPluginOptions, done: FastifyPluginDoneCallback) => {
     fastify.decorate('resourceDao', {
-      getResources: async (): Promise<Resource[]> => {
+      listResources: async (): Promise<Resource[]> => {
         const query = `
           SELECT
             resource.id AS id,

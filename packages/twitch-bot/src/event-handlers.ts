@@ -24,10 +24,10 @@ export const setupExistingSubscriptionsOnAppStart = async (conduitId: string): P
   await createChatMessageEventSubscription(TWITCH_BOT_USER_ID, conduitId);
 
   // Subscribe to all other channels in db
-  const apiResponse = await sheikahSlateBotApiClient.getTwitchChannels();
+  const apiResponse = await sheikahSlateBotApiClient.listTwitchChannels();
   if (apiResponse.error) {
     console.error(apiResponse.error);
-    throw new Error('`getTwitchChannels` API called failed with an error');
+    throw new Error('`listTwitchChannels` API called failed with an error');
   }
   if (apiResponse.data === undefined) {
     throw new Error('`data` field not present even though no error was returned');
@@ -117,7 +117,7 @@ export const handleNewChatMessage = async (
   }
 
   // Query API for resource
-  const apiResponse = await sheikahSlateBotApiClient.getResources({ query: { commandName: command } });
+  const apiResponse = await sheikahSlateBotApiClient.listResources({ query: { commandName: command } });
   if (apiResponse.error) {
     console.error(apiResponse.error);
     return;

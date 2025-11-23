@@ -3,21 +3,20 @@ import Type, { type Static } from 'typebox';
 import { ResourceSchema } from '../../model/index.ts';
 
 /* `GET /resources` schema */
-const getResourcesQueryStringSchema = Type.Object({
+const listResourcesQueryStringSchema = Type.Object({
   commandName: Type.Optional(Type.String()),
 });
-
-const getResourcesResponseSchema = Type.Object({
+const listResourcesResponseSchema = Type.Object({
   resources: Type.Array(ResourceSchema),
 });
-
-export interface GetResourcesRouteInterface extends RouteGenericInterface {
-  Querystring: Static<typeof getResourcesQueryStringSchema>;
-  Reply: Static<typeof getResourcesResponseSchema>;
+export interface ListResourcesRouteInterface extends RouteGenericInterface {
+  Querystring: Static<typeof listResourcesQueryStringSchema>;
+  Reply: Static<typeof listResourcesResponseSchema>;
 }
-export const getResourcesSchema: FastifySchema = {
-  querystring: getResourcesQueryStringSchema,
+export const listResourcesSchema: FastifySchema = {
+  operationId: 'listResources',
+  querystring: listResourcesQueryStringSchema,
   response: {
-    200: getResourcesResponseSchema,
+    200: listResourcesResponseSchema,
   },
 };

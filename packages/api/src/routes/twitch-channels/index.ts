@@ -3,15 +3,15 @@ import { TwitchChannel } from '../../model/index.ts';
 import {
   AddTwitchChannelRouteInterface,
   addTwitchChannelSchema,
-  GetTwitchChannelsRouteInterface,
-  getTwitchChannelsSchema,
+  ListTwitchChannelsRouteInterface,
+  listTwitchChannelsSchema,
   RemoveTwitchChannelRouteInterface,
   removeTwitchChannelSchema,
 } from './schema.ts';
 
 export const twitchChannelRoutes = (fastify: FastifyInstance) => {
-  fastify.get<GetTwitchChannelsRouteInterface>('/', { schema: getTwitchChannelsSchema }, async () => {
-    const twitchChannels: TwitchChannel[] = await fastify.twitchChannelDao.getTwitchChannels();
+  fastify.get<ListTwitchChannelsRouteInterface>('/', { schema: listTwitchChannelsSchema }, async () => {
+    const twitchChannels: TwitchChannel[] = await fastify.twitchChannelDao.listTwitchChannels();
     return { twitchChannels };
   });
 

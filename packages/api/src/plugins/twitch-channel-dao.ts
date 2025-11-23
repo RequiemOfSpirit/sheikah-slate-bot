@@ -8,7 +8,7 @@ declare module 'fastify' {
       /**
        * @returns List of all Twitch Channels in the database.
        */
-      getTwitchChannels: () => Promise<TwitchChannel[]>;
+      listTwitchChannels: () => Promise<TwitchChannel[]>;
 
       /**
        * Adds the specified new Twitch Channel to the database.
@@ -35,7 +35,7 @@ const pluginMetadata: PluginMetadata = {
 export const twitchChannelDao = fastifyPlugin(
   (fastify: FastifyInstance, _opts: FastifyPluginOptions, done: FastifyPluginDoneCallback) => {
     fastify.decorate('twitchChannelDao', {
-      getTwitchChannels: async (): Promise<TwitchChannel[]> => {
+      listTwitchChannels: async (): Promise<TwitchChannel[]> => {
         const query = 'SELECT id, twitch_channel_id as "twitchChannelId" FROM twitch_channels;';
         const { rows } = await fastify.pg.query(query);
         return rows as TwitchChannel[];
