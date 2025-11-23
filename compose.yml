@@ -71,6 +71,17 @@ services:
     networks:
       - app-network-internal
 
+  # Twitch Bot
+  twitch-bot:
+    image: sheikah-slate-bot/twitch-bot
+    container_name: sheikah-slate-bot_twitch-bot
+    build:
+      dockerfile: ./packages/twitch-bot/Dockerfile
+    depends_on:
+      - api-internal
+    networks:
+      - app-network-internal
+
 networks:
   app-network-public:
     name: sheikah-slate-bot_network-public
