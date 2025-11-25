@@ -6,7 +6,7 @@ import { BASE_API_URL } from './utils/env.ts';
 const COMMAND_PREFIX = '!';
 
 const apiClient = new SheikahSlateBotInternalApiClient({
-  client: createClient(createConfig({ baseUrl: BASE_API_URL })),
+  client: createClient(createConfig({ baseUrl: BASE_API_URL, throwOnError: true })),
 });
 
 export const handleNewMessage = async (message: Message): Promise<void> => {
@@ -15,17 +15,19 @@ export const handleNewMessage = async (message: Message): Promise<void> => {
   }
 
   // Remove the prefix, grab first word and convert to lowercase
-  const command = message.content.slice(1).split(' ')[0].toLowerCase();
+  const command = (message.content.slice(1).split(' ')[0] as string).toLowerCase();
 
   // Query API for resource
-  const apiResponse = await apiClient.listResources({ query: { commandName: command } });
-  if (apiResponse.error) {
-    console.error(apiResponse.error);
+  let apiResponse;
+  try {
+    apiResponse = await apiClient.listResources({ query: { commandName: command } });
+  } catch (error) {
+    console.error("Error calling 'listResources':", error);
     return;
   }
 
-  const resource = apiResponse.data?.resources[0];
-  if (!resource) {
+  const resource = apiResponse.data.resources[0];
+  if (resource === undefined) {
     console.log(`Command '${command}' not found`);
     return;
   }

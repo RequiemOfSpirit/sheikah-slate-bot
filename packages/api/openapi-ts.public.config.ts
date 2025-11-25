@@ -9,6 +9,10 @@ export default defineConfig({
   },
   plugins: [
     {
+      name: '@hey-api/client-fetch',
+      throwOnError: true,
+    },
+    {
       name: '@hey-api/sdk',
       asClass: true,
       instance: 'sheikahSlateBotApiClient',

@@ -13,7 +13,7 @@ const JOIN_COMMAND = 'join';
 const LEAVE_COMMAND = 'leave';
 
 const sheikahSlateBotApiClient = new SheikahSlateBotInternalApiClient({
-  client: createClient(createConfig({ baseUrl: BASE_API_URL })),
+  client: createClient(createConfig({ baseUrl: BASE_API_URL, throwOnError: true })),
 });
 
 /**
@@ -23,17 +23,9 @@ export const setupExistingSubscriptionsOnAppStart = async (conduitId: string): P
   // Subscribe to bot's own channel manually
   await createChatMessageEventSubscription(TWITCH_BOT_USER_ID, conduitId);
 
-  // Subscribe to all other channels in db
-  const apiResponse = await sheikahSlateBotApiClient.listTwitchChannels();
-  if (apiResponse.error) {
-    console.error(apiResponse.error);
-    throw new Error('`listTwitchChannels` API call failed with an error');
-  }
-  if (apiResponse.data === undefined) {
-    throw new Error('`data` field not present even though no error was returned');
-  }
-
-  for (const twitchChannel of apiResponse.data.twitchChannels) {
+  // Subscribe to all other channels in db. Not catching API call errors to fail fast in case of issues.
+  const { data } = await sheikahSlateBotApiClient.listTwitchChannels();
+  for (const twitchChannel of data.twitchChannels) {
     await createChatMessageEventSubscription(twitchChannel.twitchChannelId, conduitId);
   }
 };
@@ -55,7 +47,10 @@ const handleNewChannelJoinRequest = async (
 
   let hasChannelAlreadyJoined: boolean;
   try {
-    hasChannelAlreadyJoined = await hasTwitchChannelAlreadyJoined(chatterUserId);
+    const { data } = await sheikahSlateBotApiClient.listTwitchChannels({
+      query: { twitchChannelId: chatterUserId },
+    });
+    hasChannelAlreadyJoined = data.twitchChannels.length > 0;
   } catch (error) {
     console.error('Error occured while checking to see if channel has already joined:', error);
     await sendInternalErrorChatMessage(chatMessageEvent);
@@ -111,7 +106,10 @@ const handleChannelLeaveRequest = async (chatMessageEvent: TwitchChatMessageEven
 
   let hasChannelAlreadyJoined: boolean;
   try {
-    hasChannelAlreadyJoined = await hasTwitchChannelAlreadyJoined(chatterUserId);
+    const { data } = await sheikahSlateBotApiClient.listTwitchChannels({
+      query: { twitchChannelId: chatterUserId },
+    });
+    hasChannelAlreadyJoined = data.twitchChannels.length > 0;
   } catch (error) {
     console.error('Error occured while checking to see if channel has already joined:', error);
     await sendInternalErrorChatMessage(chatMessageEvent);
@@ -144,7 +142,7 @@ export const handleNewChatMessage = async (
   const splitMessage = chatMessageEvent.message.text.split(' ');
 
   // First word in the text for a reply message is a ping mentioning the parent message's author
-  const firstWordInMessage = chatMessageEvent.reply ? splitMessage[1] : splitMessage[0];
+  const firstWordInMessage = (chatMessageEvent.reply ? splitMessage[1] : splitMessage[0]) as string;
   if (!firstWordInMessage.startsWith(COMMAND_PREFIX)) {
     return;
   }
@@ -166,14 +164,16 @@ export const handleNewChatMessage = async (
   }
 
   // Query API for resource
-  const apiResponse = await sheikahSlateBotApiClient.listResources({ query: { commandName: command } });
-  if (apiResponse.error) {
-    console.error(apiResponse.error);
+  let apiResponse;
+  try {
+    apiResponse = await sheikahSlateBotApiClient.listResources({ query: { commandName: command } });
+  } catch (error) {
+    console.error("Error calling 'listResources':", error);
     return;
   }
 
-  const resource = apiResponse.data?.resources[0];
-  if (!resource) {
+  const resource = apiResponse.data.resources[0];
+  if (resource === undefined) {
     console.log(`Command '${command}' not found (Channel: '${chatMessageEvent.broadcaster_user_name}')`);
     return;
   }
@@ -245,23 +245,4 @@ const sendInternalErrorChatMessage = async (originalChatMessageEvent: TwitchChat
 
   const internalErrorChatMessage = '[Error] Internal error while processing command. Please reach out to bot owner.';
   await sendTwitchChatMessage(originalChatMessageEvent, internalErrorChatMessage);
-};
-
-/**
- * Utility method to check if a twitch channel exists in the database
- *
- * @param twitchChannelId Twitch Channel ID to check existence for
- * @returns true if the twitch channel exists in db
- */
-const hasTwitchChannelAlreadyJoined = async (twitchChannelId: string): Promise<boolean> => {
-  const apiResponse = await sheikahSlateBotApiClient.listTwitchChannels({ query: { twitchChannelId } });
-  if (apiResponse.error) {
-    console.error(apiResponse.error);
-    throw new Error('`listTwitchChannels` API call failed with an error');
-  }
-  if (apiResponse.data === undefined) {
-    throw new Error('`data` field not present even though no error was returned');
-  }
-
-  return apiResponse.data.twitchChannels.length > 0;
 };
