@@ -4,13 +4,13 @@ import { ListResourcesRouteInterface, listResourcesSchema } from './schema.ts';
 
 export const resourceRoutes = (fastify: FastifyInstance) => {
   fastify.get<ListResourcesRouteInterface>('/', { schema: listResourcesSchema }, async (request) => {
-    /* List resources */
+    // List resources
     if (request.query.commandName === undefined) {
       const resources: Resource[] = await fastify.resourceDao.listResources();
       return { resources };
     }
 
-    /* Query resources by command name */
+    // Query resources by command name
     const singletonResourceList: Resource[] = await fastify.resourceDao.queryResourcesByCommand(
       request.query.commandName,
     );
