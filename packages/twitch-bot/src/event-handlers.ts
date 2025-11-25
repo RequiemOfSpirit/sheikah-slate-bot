@@ -55,10 +55,10 @@ const handleNewChannelJoinRequest = async (
 
   let hasChannelAlreadyJoined: boolean;
   try {
-    hasChannelAlreadyJoined = await doesTwitchChannelExist(chatterUserId);
-  } catch {
-    const internalErrorChatMessage = '[Error] Internal error while processing join. Please reach out to bot owner.';
-    await sendTwitchChatMessage(chatMessageEvent, internalErrorChatMessage);
+    hasChannelAlreadyJoined = await hasTwitchChannelAlreadyJoined(chatterUserId);
+  } catch (error) {
+    console.error('Error occured while checking to see if channel has already joined:', error);
+    await sendInternalErrorChatMessage(chatMessageEvent);
     return;
   }
 
@@ -69,8 +69,14 @@ const handleNewChannelJoinRequest = async (
     return;
   }
 
-  await sheikahSlateBotApiClient.addTwitchChannel({ body: { twitchChannelId: chatterUserId } });
-  await createChatMessageEventSubscription(chatterUserId, conduitId);
+  try {
+    await createChatMessageEventSubscription(chatterUserId, conduitId);
+    await sheikahSlateBotApiClient.addTwitchChannel({ body: { twitchChannelId: chatterUserId } });
+  } catch (error) {
+    console.error(`Error joining channel '${chatterUserName}':`, error);
+    await sendInternalErrorChatMessage(chatMessageEvent);
+    return;
+  }
 
   console.log(`Joined channel: '${chatterUserName}'`);
   const joinChatMessage = `Successfully joined channel '${chatterUserName}'`;
@@ -82,13 +88,13 @@ const handleNewChannelJoinRequest = async (
  * This is called for manual !leave commands in the bot channel and for subscription revocation messages from Twitch.
  */
 export const leaveChannel = async (twitchChannelId: string): Promise<void> => {
-  await sheikahSlateBotApiClient.removeTwitchChannel({ query: { twitchChannelId } });
-
   // There should only be one channel.chat.message subscription for this channel
   const existingSubscriptions = await twitchApiClient.eventSub.getSubscriptionsForUser(twitchChannelId);
   for (const subscription of existingSubscriptions.data) {
     await subscription.unsubscribe();
   }
+
+  await sheikahSlateBotApiClient.removeTwitchChannel({ query: { twitchChannelId } });
 };
 
 /**
@@ -105,10 +111,10 @@ const handleChannelLeaveRequest = async (chatMessageEvent: TwitchChatMessageEven
 
   let hasChannelAlreadyJoined: boolean;
   try {
-    hasChannelAlreadyJoined = await doesTwitchChannelExist(chatterUserId);
-  } catch {
-    const internalErrorChatMessage = '[Error] Internal error while processing leave. Please reach out to bot owner.';
-    await sendTwitchChatMessage(chatMessageEvent, internalErrorChatMessage);
+    hasChannelAlreadyJoined = await hasTwitchChannelAlreadyJoined(chatterUserId);
+  } catch (error) {
+    console.error('Error occured while checking to see if channel has already joined:', error);
+    await sendInternalErrorChatMessage(chatMessageEvent);
     return;
   }
 
@@ -119,7 +125,14 @@ const handleChannelLeaveRequest = async (chatMessageEvent: TwitchChatMessageEven
     return;
   }
 
-  await leaveChannel(chatterUserId);
+  try {
+    await leaveChannel(chatterUserId);
+  } catch (error) {
+    console.error(`Error leaving channel '${chatterUserName}':`, error);
+    await sendInternalErrorChatMessage(chatMessageEvent);
+    return;
+  }
+
   console.log(`Left channel: '${chatterUserName}'`);
   await sendTwitchChatMessage(chatMessageEvent, `Successfully left channel '${chatterUserName}'`);
 };
@@ -199,21 +212,39 @@ const sendTwitchChatMessage = async (
   originalChatMessageEvent: TwitchChatMessageEvent,
   message: string,
 ): Promise<void> => {
-  const responseChatMessage = await twitchApiClient.chat.sendChatMessageAsApp(
-    TWITCH_BOT_USER_ID,
-    originalChatMessageEvent.broadcaster_user_id,
-    message,
-    {
-      replyParentMessageId: originalChatMessageEvent.message_id,
-    },
-  );
-
-  if (!responseChatMessage.isSent) {
-    console.error(
-      `Failed to send chat message in channel '${originalChatMessageEvent.broadcaster_user_name}': ` +
-        `[${responseChatMessage.dropReasonCode}] ${responseChatMessage.dropReasonMessage}`,
+  try {
+    const responseChatMessage = await twitchApiClient.chat.sendChatMessageAsApp(
+      TWITCH_BOT_USER_ID,
+      originalChatMessageEvent.broadcaster_user_id,
+      message,
+      {
+        replyParentMessageId: originalChatMessageEvent.message_id,
+      },
     );
+
+    if (!responseChatMessage.isSent) {
+      console.error(
+        `Failed to send chat message in channel '${originalChatMessageEvent.broadcaster_user_name}': ` +
+          `[${responseChatMessage.dropReasonCode}] ${responseChatMessage.dropReasonMessage}`,
+      );
+    }
+  } catch (error) {
+    console.error(`Error sending chat message in channel '${originalChatMessageEvent.broadcaster_user_name}'`, error);
   }
+};
+
+/**
+ * Utility method to send chat messages notifying users of InternalErrors
+ * This is only intended to respond to messages in the bot's own channel, and only for internal bot commands.
+ */
+const sendInternalErrorChatMessage = async (originalChatMessageEvent: TwitchChatMessageEvent): Promise<void> => {
+  if (originalChatMessageEvent.broadcaster_user_id !== TWITCH_BOT_USER_ID) {
+    console.error("sendInternalErrorChatMessage called for chat message outside of bot's channel");
+    return;
+  }
+
+  const internalErrorChatMessage = '[Error] Internal error while processing command. Please reach out to bot owner.';
+  await sendTwitchChatMessage(originalChatMessageEvent, internalErrorChatMessage);
 };
 
 /**
@@ -222,7 +253,7 @@ const sendTwitchChatMessage = async (
  * @param twitchChannelId Twitch Channel ID to check existence for
  * @returns true if the twitch channel exists in db
  */
-const doesTwitchChannelExist = async (twitchChannelId: string): Promise<boolean> => {
+const hasTwitchChannelAlreadyJoined = async (twitchChannelId: string): Promise<boolean> => {
   const apiResponse = await sheikahSlateBotApiClient.listTwitchChannels({ query: { twitchChannelId } });
   if (apiResponse.error) {
     console.error(apiResponse.error);
