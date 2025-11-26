@@ -4,7 +4,10 @@ import { TwitchChannelSchema } from '../../model/index.ts';
 
 // Common shapes
 const emptyResponseSchema = Type.Null();
-const errorResponseSchema = Type.Object({ message: Type.String() });
+const errorResponseSchema = Type.Object({
+  statusCode: Type.String(),
+  message: Type.String(),
+});
 
 /* `GET /twitch-channels` schema */
 const listTwitchChannelsQueryStringSchema = Type.Object({

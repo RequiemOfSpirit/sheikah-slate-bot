@@ -28,7 +28,11 @@ export const twitchChannelRoutes = (fastify: FastifyInstance) => {
   fastify.post<AddTwitchChannelRouteInterface>('/', { schema: addTwitchChannelSchema }, async (request, reply) => {
     const twitchChannelId: string = request.body.twitchChannelId;
     if (await fastify.twitchChannelDao.doesTwitchChannelExist(twitchChannelId)) {
-      return reply.code(409).send({ message: `Twitch Channel with ID '${twitchChannelId}' already exists.` });
+      const statusCode = 409;
+      return reply.code(statusCode).send({
+        statusCode: statusCode.toString(),
+        message: `Twitch Channel with ID '${twitchChannelId}' already exists.`,
+      });
     }
 
     await fastify.twitchChannelDao.addTwitchChannel(twitchChannelId);
@@ -41,7 +45,11 @@ export const twitchChannelRoutes = (fastify: FastifyInstance) => {
     async (request, reply) => {
       const twitchChannelId: string = request.query.twitchChannelId;
       if (!(await fastify.twitchChannelDao.doesTwitchChannelExist(twitchChannelId))) {
-        return reply.code(404).send({ message: `Cannot find Twitch Channel with ID '${twitchChannelId}'.` });
+        const statusCode = 404;
+        return reply.code(statusCode).send({
+          statusCode: statusCode.toString(),
+          message: `Cannot find Twitch Channel with ID '${twitchChannelId}'.`,
+        });
       }
 
       await fastify.twitchChannelDao.removeTwitchChannel(twitchChannelId);

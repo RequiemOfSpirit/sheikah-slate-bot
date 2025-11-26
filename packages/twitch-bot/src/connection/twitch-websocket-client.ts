@@ -57,7 +57,7 @@ export class TwitchWebSocketClient {
       console.log('WebSocket connection established');
     };
     this.webSocket.onerror = (error) => {
-      console.error('WebSocket error:', error);
+      console.error('[Error] WebSocket error:', error);
     };
     this.webSocket.onclose = (event: CloseEvent) => {
       console.log('WebSocket connection closed:', event);

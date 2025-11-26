@@ -22,7 +22,7 @@ export const handleNewMessage = async (message: Message): Promise<void> => {
   try {
     apiResponse = await apiClient.listResources({ query: { commandName: command } });
   } catch (error) {
-    console.error("Error calling 'listResources':", error);
+    console.error("[Error] Error calling 'listResources':", error);
     return;
   }
 

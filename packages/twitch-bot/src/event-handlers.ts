@@ -38,7 +38,7 @@ const handleNewChannelJoinRequest = async (
   conduitId: string,
 ): Promise<void> => {
   if (chatMessageEvent.broadcaster_user_id !== TWITCH_BOT_USER_ID) {
-    console.error("Join function called for chat message outside of bot's channel");
+    console.error("[Error] Join function called for chat message outside of bot's channel");
     return;
   }
 
@@ -52,7 +52,7 @@ const handleNewChannelJoinRequest = async (
     });
     hasChannelAlreadyJoined = data.twitchChannels.length > 0;
   } catch (error) {
-    console.error('Error occured while checking to see if channel has already joined:', error);
+    console.error('[Error] Error occured while checking to see if channel has already joined:', error);
     await sendInternalErrorChatMessage(chatMessageEvent);
     return;
   }
@@ -65,10 +65,27 @@ const handleNewChannelJoinRequest = async (
   }
 
   try {
-    await createChatMessageEventSubscription(chatterUserId, conduitId);
-    await sheikahSlateBotApiClient.addTwitchChannel({ body: { twitchChannelId: chatterUserId } });
+    // Create new chat message eventsub subscription
+    const createSubscriptionApiCall = async () => await createChatMessageEventSubscription(chatterUserId, conduitId);
+    await callSetupApiWithErrorHandling({
+      apiName: 'twitch_eventsub.createSubscription',
+      apiCall: createSubscriptionApiCall,
+      errorStatusCodeFieldName: '_statusCode',
+      errorStatusCodeToSwallow: '409',
+    });
+
+    // Add twitch channel to DB
+    const addTwitchChannelApiCall = async () => {
+      await sheikahSlateBotApiClient.addTwitchChannel({ body: { twitchChannelId: chatterUserId } });
+    };
+    await callSetupApiWithErrorHandling({
+      apiName: 'sheikahSlateBot_addTwitchChannel',
+      apiCall: addTwitchChannelApiCall,
+      errorStatusCodeFieldName: 'statusCode',
+      errorStatusCodeToSwallow: '409',
+    });
   } catch (error) {
-    console.error(`Error joining channel '${chatterUserName}':`, error);
+    console.error(`[Error] Error joining channel '${chatterUserName}':`, error);
     await sendInternalErrorChatMessage(chatMessageEvent);
     return;
   }
@@ -89,7 +106,15 @@ export const leaveChannel = async (twitchChannelId: string): Promise<void> => {
     await subscription.unsubscribe();
   }
 
-  await sheikahSlateBotApiClient.removeTwitchChannel({ query: { twitchChannelId } });
+  const removeTwitchChannelApiCall = async () => {
+    await sheikahSlateBotApiClient.removeTwitchChannel({ query: { twitchChannelId } });
+  };
+  await callSetupApiWithErrorHandling({
+    apiName: 'sheikahSlateBot_removeTwitchChannel',
+    apiCall: removeTwitchChannelApiCall,
+    errorStatusCodeFieldName: 'statusCode',
+    errorStatusCodeToSwallow: '404',
+  });
 };
 
 /**
@@ -97,7 +122,7 @@ export const leaveChannel = async (twitchChannelId: string): Promise<void> => {
  */
 const handleChannelLeaveRequest = async (chatMessageEvent: TwitchChatMessageEvent): Promise<void> => {
   if (chatMessageEvent.broadcaster_user_id !== TWITCH_BOT_USER_ID) {
-    console.error("Leave function called for chat message outside of bot's channel");
+    console.error("[Error] Leave function called for chat message outside of bot's channel");
     return;
   }
 
@@ -111,7 +136,7 @@ const handleChannelLeaveRequest = async (chatMessageEvent: TwitchChatMessageEven
     });
     hasChannelAlreadyJoined = data.twitchChannels.length > 0;
   } catch (error) {
-    console.error('Error occured while checking to see if channel has already joined:', error);
+    console.error('[Error] Error occured while checking to see if channel has already joined:', error);
     await sendInternalErrorChatMessage(chatMessageEvent);
     return;
   }
@@ -126,7 +151,7 @@ const handleChannelLeaveRequest = async (chatMessageEvent: TwitchChatMessageEven
   try {
     await leaveChannel(chatterUserId);
   } catch (error) {
-    console.error(`Error leaving channel '${chatterUserName}':`, error);
+    console.error(`[Error] Error leaving channel '${chatterUserName}':`, error);
     await sendInternalErrorChatMessage(chatMessageEvent);
     return;
   }
@@ -168,7 +193,7 @@ export const handleNewChatMessage = async (
   try {
     apiResponse = await sheikahSlateBotApiClient.listResources({ query: { commandName: command } });
   } catch (error) {
-    console.error("Error calling 'listResources':", error);
+    console.error("[Error] Error calling 'listResources':", error);
     return;
   }
 
@@ -224,12 +249,15 @@ const sendTwitchChatMessage = async (
 
     if (!responseChatMessage.isSent) {
       console.error(
-        `Failed to send chat message in channel '${originalChatMessageEvent.broadcaster_user_name}': ` +
+        `[Error] Failed to send chat message in channel '${originalChatMessageEvent.broadcaster_user_name}': ` +
           `[${responseChatMessage.dropReasonCode}] ${responseChatMessage.dropReasonMessage}`,
       );
     }
   } catch (error) {
-    console.error(`Error sending chat message in channel '${originalChatMessageEvent.broadcaster_user_name}'`, error);
+    console.error(
+      `[Error] API Error encountered when sending chat message in channel '${originalChatMessageEvent.broadcaster_user_name}'`,
+      error,
+    );
   }
 };
 
@@ -239,10 +267,57 @@ const sendTwitchChatMessage = async (
  */
 const sendInternalErrorChatMessage = async (originalChatMessageEvent: TwitchChatMessageEvent): Promise<void> => {
   if (originalChatMessageEvent.broadcaster_user_id !== TWITCH_BOT_USER_ID) {
-    console.error("sendInternalErrorChatMessage called for chat message outside of bot's channel");
+    console.error("[Error] sendInternalErrorChatMessage called for chat message outside of bot's channel");
     return;
   }
 
   const internalErrorChatMessage = '[Error] Internal error while processing command. Please reach out to bot owner.';
   await sendTwitchChatMessage(originalChatMessageEvent, internalErrorChatMessage);
+};
+
+type CallSetupApiWithErrorHandlingParams = {
+  /**
+   * The name of the API being called (used only for logging purposes)
+   */
+  apiName: string;
+
+  /**
+   * The API call to make
+   */
+  apiCall: () => Promise<void>;
+
+  /**
+   * The name of the field in the error object that contains the status code
+   */
+  errorStatusCodeFieldName: string;
+
+  /**
+   * The error status code to swallow
+   */
+  errorStatusCodeToSwallow: string;
+};
+/**
+ * Utility method used to call a setup API with error handling that swallows any error with the given status code
+ */
+const callSetupApiWithErrorHandling = async ({
+  apiName,
+  apiCall,
+  errorStatusCodeFieldName,
+  errorStatusCodeToSwallow,
+}: CallSetupApiWithErrorHandlingParams): Promise<void> => {
+  try {
+    await apiCall();
+  } catch (error) {
+    if (error === null || typeof error !== 'object' || !Object.hasOwn(error, errorStatusCodeFieldName)) {
+      throw error;
+    }
+
+    const apiError = error as { [errorStatusCodeFieldName]: string | number };
+    const statusCode = apiError[errorStatusCodeFieldName] as string | number;
+    if (statusCode.toString() !== errorStatusCodeToSwallow) {
+      throw error;
+    }
+
+    console.warn(`[Warning] Swallowed '${apiName}' API error with status code '${errorStatusCodeToSwallow}'.`);
+  }
 };
