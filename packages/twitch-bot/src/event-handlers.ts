@@ -164,6 +164,11 @@ export const handleNewChatMessage = async (
   chatMessageEvent: TwitchChatMessageEvent,
   conduitId: string,
 ): Promise<void> => {
+  if (chatMessageEvent.chatter_user_id === TWITCH_BOT_USER_ID) {
+    // Ignore messages from the bot
+    return;
+  }
+
   const splitMessage = chatMessageEvent.message.text.split(' ');
 
   // First word in the text for a reply message is a ping mentioning the parent message's author
