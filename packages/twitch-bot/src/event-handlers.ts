@@ -1,6 +1,6 @@
 import { createClient, createConfig } from '@sheikah-slate-bot/api/client-utils';
 import { SheikahSlateBotInternalApiClient } from '@sheikah-slate-bot/api/client/internal';
-import { twitchApiClient } from './client/twitch-api-client.ts';
+import { twitchApiClient, TwitchApiError } from './client/twitch-api-client.ts';
 import {
   CHANNEL_CHAT_MESSAGE_SUBSCRIPTION_DEFINITION_VERSION,
   CHANNEL_CHAT_MESSAGE_SUBSCRIPTION_TYPE,
@@ -64,8 +64,8 @@ const handleNewChannelJoinRequest = async (
     return;
   }
 
+  // Create new chat message eventsub subscription
   try {
-    // Create new chat message eventsub subscription
     const createSubscriptionApiCall = async () => await createChatMessageEventSubscription(chatterUserId, conduitId);
     await callSetupApiWithErrorHandling({
       apiName: 'twitch_eventsub.createSubscription',
@@ -73,8 +73,24 @@ const handleNewChannelJoinRequest = async (
       errorStatusCodeFieldName: '_statusCode',
       errorStatusCodeToSwallow: '409',
     });
+  } catch (error) {
+    if (
+      error instanceof Object &&
+      Object.hasOwn(error, '_statusCode') &&
+      (error as TwitchApiError)._statusCode === 403
+    ) {
+      console.warn(`[Warning] Bot not authorized to join channel '${chatterUserName}':`, error);
+      await sendUserErrorChatMessage(chatMessageEvent);
+      return;
+    }
 
-    // Add twitch channel to DB
+    console.error(`[Error] Error joining channel '${chatterUserName}':`, error);
+    await sendInternalErrorChatMessage(chatMessageEvent);
+    return;
+  }
+
+  // Add twitch channel to DB
+  try {
     const addTwitchChannelApiCall = async () => {
       await sheikahSlateBotApiClient.addTwitchChannel({ body: { twitchChannelId: chatterUserId } });
     };
@@ -267,8 +283,26 @@ const sendTwitchChatMessage = async (
 };
 
 /**
- * Utility method to send chat messages notifying users of InternalErrors
- * This is only intended to respond to messages in the bot's own channel, and only for internal bot commands.
+ * Utility method to send chat messages notifying users of 4XX user errors.
+ * Currently the only such error message supported is for 403 unauthorized errors on creating eventsub subscriptions.
+ *
+ * This method is only intended to be used to respond to messages in the bot's own channel, and only for internal bot commands.
+ */
+const sendUserErrorChatMessage = async (originalChatMessageEvent: TwitchChatMessageEvent): Promise<void> => {
+  if (originalChatMessageEvent.broadcaster_user_id !== TWITCH_BOT_USER_ID) {
+    console.error("[Error] sendInternalErrorChatMessage called for chat message outside of bot's channel");
+    return;
+  }
+
+  const unauthorizedErrorChatMessage =
+    '[Error] Bot does not have permission to join your channel. ' +
+    'Check step 1 under the "Join channel" instructions on the About tab to allow this bot to join.';
+  await sendTwitchChatMessage(originalChatMessageEvent, unauthorizedErrorChatMessage);
+};
+
+/**
+ * Utility method to send chat messages notifying users of InternalErrors.
+ * This method is only intended to be used to respond to messages in the bot's own channel, and only for internal bot commands.
  */
 const sendInternalErrorChatMessage = async (originalChatMessageEvent: TwitchChatMessageEvent): Promise<void> => {
   if (originalChatMessageEvent.broadcaster_user_id !== TWITCH_BOT_USER_ID) {
@@ -313,7 +347,7 @@ const callSetupApiWithErrorHandling = async ({
   try {
     await apiCall();
   } catch (error) {
-    if (error === null || typeof error !== 'object' || !Object.hasOwn(error, errorStatusCodeFieldName)) {
+    if (!(error instanceof Object) || !Object.hasOwn(error, errorStatusCodeFieldName)) {
       throw error;
     }
 
