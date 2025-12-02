@@ -15,10 +15,9 @@ const conduit = await twitchApiClient.eventSub.createConduit(1);
 /**
  * Function to be called when the Twitch WebSocket connection is designated as "ready"
  *
- * @param sessionId Session ID returned by Twitch to be used to finish conduit setup
+ * @param sessionId Session ID returned by Twitch needed to finish conduit setup (or) update conduit shard on reconnect
  */
-const handleWebSocketConnectionReady = async (sessionId: string) => {
-  // Finish conduit setup
+const handleNewSession = async (sessionId: string) => {
   await twitchApiClient.eventSub.updateConduitShards(conduit.id, [
     {
       id: '0', // ID for the first and only shard
@@ -28,14 +27,18 @@ const handleWebSocketConnectionReady = async (sessionId: string) => {
       },
     },
   ]);
+};
 
+const handleInitialConnectionReady = async () => {
   // Setup channel subscriptions
   await setupExistingSubscriptionsOnAppStart(conduit.id);
 };
 
-const websocketClient = new TwitchWebSocketClient();
-websocketClient.onConnectionReady((sessionId: string) => void handleWebSocketConnectionReady(sessionId));
-websocketClient.onChatMessage(
-  (chatMessageEvent: TwitchChatMessageEvent) => void handleNewChatMessage(chatMessageEvent, conduit.id),
-);
+const websocketClient = new TwitchWebSocketClient({
+  newSessionHandler: handleNewSession,
+  initialConnectionReadyHandler: handleInitialConnectionReady,
+  chatMessageHandler: async (chatMessageEvent: TwitchChatMessageEvent) =>
+    await handleNewChatMessage(chatMessageEvent, conduit.id),
+});
+
 websocketClient.open();
