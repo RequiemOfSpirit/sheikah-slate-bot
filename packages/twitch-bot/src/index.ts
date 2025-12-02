@@ -1,7 +1,11 @@
 import { twitchApiClient } from './client/twitch-api-client.ts';
 import { TwitchChatMessageEvent } from './connection/twitch-message-types.ts';
 import { TwitchWebSocketClient } from './connection/twitch-websocket-client.ts';
-import { handleNewChatMessage, setupExistingSubscriptionsOnAppStart } from './event-handlers.ts';
+import {
+  handleChannelSubscriptionRevocation,
+  handleNewChatMessage,
+  setupExistingSubscriptionsOnAppStart,
+} from './event-handlers.ts';
 
 // Initial cleanup on app restart
 const existingConduits = await twitchApiClient.eventSub.getConduits();
@@ -37,8 +41,8 @@ const handleInitialConnectionReady = async () => {
 const websocketClient = new TwitchWebSocketClient({
   newSessionHandler: handleNewSession,
   initialConnectionReadyHandler: handleInitialConnectionReady,
-  chatMessageHandler: async (chatMessageEvent: TwitchChatMessageEvent) =>
-    await handleNewChatMessage(chatMessageEvent, conduit.id),
+  chatMessageHandler: async (event: TwitchChatMessageEvent) => await handleNewChatMessage(event, conduit.id),
+  subscriptionRevocationHandler: handleChannelSubscriptionRevocation,
 });
 
 websocketClient.open();

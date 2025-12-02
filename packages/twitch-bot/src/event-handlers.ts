@@ -115,8 +115,8 @@ const handleNewChannelJoinRequest = async (
  * Common logic to handle removing and unsubscribing from a channel.
  * This is called for manual !leave commands in the bot channel and for subscription revocation messages from Twitch.
  */
-export const leaveChannel = async (twitchChannelId: string): Promise<void> => {
-  // There should only be one channel.chat.message subscription for this channel
+const leaveChannel = async (twitchChannelId: string): Promise<void> => {
+  // Note: This app will only have 1 subscription for each channel: channel.chat.message
   const existingSubscriptions = await twitchApiClient.eventSub.getSubscriptionsForUser(twitchChannelId);
   for (const subscription of existingSubscriptions.data) {
     await subscription.unsubscribe();
@@ -131,6 +131,37 @@ export const leaveChannel = async (twitchChannelId: string): Promise<void> => {
     errorStatusCodeFieldName: 'statusCode',
     errorStatusCodeToSwallow: '404',
   });
+};
+
+export const handleChannelSubscriptionRevocation = async (twitchChannelId: string): Promise<void> => {
+  let hasChannelAlreadyJoined: boolean;
+  try {
+    const { data } = await sheikahSlateBotApiClient.listTwitchChannels({ query: { twitchChannelId } });
+    hasChannelAlreadyJoined = data.twitchChannels.length > 0;
+  } catch (error) {
+    console.error('[Error] Error occured while checking to see if channel has already joined:', error);
+    return;
+  }
+
+  if (!hasChannelAlreadyJoined) {
+    console.warn(
+      `[Warning] Subscription revocation received for channel '${twitchChannelId}' that is not currently joined.`,
+    );
+    return;
+  }
+
+  try {
+    /*
+     * This will try to also fetch and unsubscribe from existing subscriptions, but that's fine since
+     *  there should be no active subscriptions at this point
+     */
+    await leaveChannel(twitchChannelId);
+  } catch (error) {
+    console.error(`[Error] Error leaving channel '${twitchChannelId}':`, error);
+    return;
+  }
+
+  console.log(`Subscription revocation successfully processed for channel: '${twitchChannelId}'`);
 };
 
 /**
@@ -158,7 +189,7 @@ const handleChannelLeaveRequest = async (chatMessageEvent: TwitchChatMessageEven
   }
 
   if (!hasChannelAlreadyJoined) {
-    console.log(`Leave command called for channel '${chatterUserName}' that is not in DB.`);
+    console.log(`Leave command called for channel '${chatterUserName}' that is not currently joined.`);
     const errorChatMessage = `[Error] Channel '${chatterUserName}' not in list of joined channels. No action taken.`;
     await sendTwitchChatMessage(chatMessageEvent, errorChatMessage);
     return;

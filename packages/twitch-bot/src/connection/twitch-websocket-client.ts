@@ -2,6 +2,7 @@ import {
   CHANNEL_CHAT_MESSAGE_SUBSCRIPTION_TYPE,
   TwitchChatMessageEvent,
   TwitchWebSocketChatMessageSubscriptionNotificationMessage,
+  TwitchWebSocketChatMessageSubscriptionRevocationMessage,
   TwitchWebSocketMessage,
   TwitchWebSocketSessionReconnectMessage,
   TwitchWebSocketSessionWelcomeMessage,
@@ -12,6 +13,7 @@ import {
 type NewSessionHandler = (sessionId: string) => Promise<void>;
 type InitialConnectionReadyHandler = () => Promise<void>;
 type ChatMessageHandler = (chatMessageEvent: TwitchChatMessageEvent) => Promise<void>;
+type SubscriptionRevocationHandler = (channelId: string) => Promise<void>;
 type ConstructorParams = {
   /**
    * Optional websocket URL to connect to. Uses twitch's official websocket server URL if not provided.
@@ -32,6 +34,11 @@ type ConstructorParams = {
    * Function that handles incoming chat messages
    */
   chatMessageHandler: ChatMessageHandler;
+
+  /**
+   * Function that handles removing channels that get deleted or that revoke bot authorization
+   */
+  subscriptionRevocationHandler: SubscriptionRevocationHandler;
 };
 
 const TWITCH_WEBSOCKET_SERVER_URL = 'wss://eventsub.wss.twitch.tv/ws';
@@ -44,12 +51,20 @@ export class TwitchWebSocketClient {
   private handleNewSession: NewSessionHandler;
   private handleInitialConnectionReady: InitialConnectionReadyHandler;
   private handleChatMessage: ChatMessageHandler;
+  private handleSubscriptionRevocation: SubscriptionRevocationHandler;
 
-  constructor({ url, newSessionHandler, initialConnectionReadyHandler, chatMessageHandler }: ConstructorParams) {
+  constructor({
+    url,
+    newSessionHandler,
+    initialConnectionReadyHandler,
+    chatMessageHandler,
+    subscriptionRevocationHandler,
+  }: ConstructorParams) {
     this.url = url ?? TWITCH_WEBSOCKET_SERVER_URL;
     this.handleNewSession = newSessionHandler;
     this.handleInitialConnectionReady = initialConnectionReadyHandler;
     this.handleChatMessage = chatMessageHandler;
+    this.handleSubscriptionRevocation = subscriptionRevocationHandler;
   }
 
   /**
@@ -121,7 +136,7 @@ export class TwitchWebSocketClient {
   };
 
   private handleSubscriptionNotificationMessage = (message: TwitchWebSocketSubscriptionNotificationMessage): void => {
-    // This app only handles chat message notifications
+    // This app only handles chat message subscriptions
     if (message.payload.subscription.type !== CHANNEL_CHAT_MESSAGE_SUBSCRIPTION_TYPE) {
       return;
     }
@@ -131,7 +146,26 @@ export class TwitchWebSocketClient {
   };
 
   private handleSubscriptionRevocationMessage = (message: TwitchWebSocketSubscriptionRevocationMessage): void => {
-    // TODO: Expose a hook here to allow removing channels. Raise error or warning for `version_removed` status.
-    console.log('Received subscription revocation message:', message);
+    // This app only handles chat message subscriptions
+    if (message.payload.subscription.type !== CHANNEL_CHAT_MESSAGE_SUBSCRIPTION_TYPE) {
+      console.error(
+        `[Error] Received revocation message for non chat.message subscription '${message.payload.subscription.type}'`,
+      );
+      return;
+    }
+
+    const chatMessageRevocationMessage = message as TwitchWebSocketChatMessageSubscriptionRevocationMessage;
+
+    const revocationStatus = chatMessageRevocationMessage.payload.subscription.status;
+    if (revocationStatus === 'version_removed') {
+      console.error('[Error] Received `version_removed` revovation message. Upgrade to new subscription version.');
+      return;
+    }
+
+    const userChannelId = chatMessageRevocationMessage.payload.subscription.condition.broadcaster_user_id;
+    console.log(
+      `Received subscription revocation message with status '${revocationStatus}' for channel '${userChannelId}'`,
+    );
+    void this.handleSubscriptionRevocation(userChannelId);
   };
 }
