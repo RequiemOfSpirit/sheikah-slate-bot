@@ -44,7 +44,7 @@ type ConstructorParams = {
 const TWITCH_WEBSOCKET_SERVER_URL = 'wss://eventsub.wss.twitch.tv/ws';
 
 export class TwitchWebSocketClient {
-  private url: string;
+  private readonly url: string;
   private oldWebSocket: WebSocket | undefined;
   private webSocket: WebSocket | undefined;
 
@@ -70,8 +70,8 @@ export class TwitchWebSocketClient {
   /**
    * Opens a connection to the Twitch WebSocket server
    */
-  open = () => {
-    this.webSocket = new WebSocket(this.url);
+  open = (url = this.url) => {
+    this.webSocket = new WebSocket(url);
 
     this.webSocket.onopen = () => {
       console.log('WebSocket connection established');
@@ -81,6 +81,13 @@ export class TwitchWebSocketClient {
     };
     this.webSocket.onclose = (event: CloseEvent) => {
       console.log('WebSocket connection closed:', event);
+
+      if (this.webSocket?.readyState === 3) {
+        console.log('Current websocket closed without reconnect message. Establishing new connection.');
+        this.oldWebSocket?.close();
+        this.oldWebSocket = this.webSocket;
+        this.open();
+      }
     };
 
     this.webSocket.onmessage = (event: MessageEvent<string>) => {
@@ -88,7 +95,7 @@ export class TwitchWebSocketClient {
 
       switch (message.metadata.message_type) {
         case 'session_welcome': {
-          if (this.oldWebSocket) {
+          if (this.oldWebSocket && this.oldWebSocket.readyState !== WebSocket.CLOSED) {
             console.log('New welcome message received. Closing old WebSocket connection.');
             this.oldWebSocket.close();
           }
@@ -130,9 +137,8 @@ export class TwitchWebSocketClient {
     console.log('Received session reconnect message');
 
     // Maintain reference to old connection and open new connection with reconnect URL
-    this.url = message.payload.session.reconnect_url;
     this.oldWebSocket = this.webSocket;
-    this.open();
+    this.open(message.payload.session.reconnect_url);
   };
 
   private handleSubscriptionNotificationMessage = (message: TwitchWebSocketSubscriptionNotificationMessage): void => {
