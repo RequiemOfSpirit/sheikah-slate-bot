@@ -8,9 +8,7 @@ fi
 
 while true; do
   read -p "> Enter command title: " RESOURCE_TITLE
-
-  echo "> Enter multiline response content for command (hit Ctrl+D to finish)"
-  RESOURCE_CONTENT=$(cat | sed "s/'/''/g")
+  read -p "> Enter response content for command (no newlines): " RESOURCE_CONTENT
 
   # Insert into resources table
   RESOURCE_ID=$(psql "$DATABASE_URL" -t -c "INSERT INTO resources (title, content) VALUES ('$RESOURCE_TITLE', '$RESOURCE_CONTENT') RETURNING id;" | head -n 1 | xargs)
