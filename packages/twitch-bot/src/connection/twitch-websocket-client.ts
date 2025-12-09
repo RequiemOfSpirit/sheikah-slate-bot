@@ -80,7 +80,8 @@ export class TwitchWebSocketClient {
       console.error('[Error] WebSocket error:', error);
     };
     this.webSocket.onclose = (event: CloseEvent) => {
-      console.log('WebSocket connection closed:', event);
+      const closeTimestamp = new Date().toISOString();
+      console.log(`[${closeTimestamp}] WebSocket connection closed:`, event);
 
       if (this.webSocket?.readyState === 3) {
         console.log('Current websocket closed without reconnect message. Establishing new connection.');
