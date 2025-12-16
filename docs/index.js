@@ -7,12 +7,13 @@ const commandsData = [
   },
   {
     title: 'Windbomb tutorial',
-    response: 'https://www.youtube.com/playlist?list=PLDeJIkztemjirnz-Wpz0dhKw4VdVfLnZ5',
+    response:
+      'In-depth windbomb tutorial series by Vivoxe: https://www.youtube.com/playlist?list=PLDeJIkztemjirnz-Wpz0dhKw4VdVfLnZ5',
     commands: ['!wbtutorial', '!wbtut', '!wbguide'],
   },
   {
     title: 'BLSS tutorial',
-    response: 'https://youtu.be/AYvJa_pQXZc',
+    response: 'In-depth BLSS guide by SrTapir: https://youtu.be/AYvJa_pQXZc',
     commands: ['!blsstutorial', '!blsstut', '!blssguide'],
   },
   {
@@ -24,7 +25,7 @@ const commandsData = [
   {
     title: 'Ragdoll glitch',
     response:
-      'Caused by shield jumping and unequipping shield midair. Messes with any trick that involves link ragdolling such as windbombs. Detailed explanation: https://youtu.be/d6-QhXwD8sY',
+      'Ragdoll glitch is caused by shield jumping and unequipping shield midair. This glitch messes with any trick that involves link ragdolling, such as windbombs. Detailed explanation: https://youtu.be/d6-QhXwD8sY',
     commands: ['!ragdoll', '!ragdollglitch'],
   },
   {
@@ -35,58 +36,58 @@ const commandsData = [
   },
   {
     title: 'Gamer windbomb guide',
-    response: 'https://youtu.be/1dy_ochgC88',
+    response: 'Quick tutorial on Gamer windbomb by finagle_a_bagel: https://youtu.be/1dy_ochgC88',
     commands: ['!gamerwb'],
   },
   {
     title: 'Canal windbomb guide',
-    response: 'https://x.com/OnyxEbony3/status/1482671152367484929',
+    response:
+      'Canal windbomb instructions and visual cues by Onyx: https://x.com/OnyxEbony3/status/1482671152367484929',
     commands: ['!canalwb'],
   },
   {
     title: 'Tree windbomb guide',
-    response: `Visual cue for where to aim: https://i.imgur.com/rxUiGbY.jpeg
-      Aiming further left along that red line will land you closer to the clipping spot but will make launch angles tighter, with lower launches getting blocked by the cliff.
-      If you get no height from a launch, it may be because of bad bomb placements, late detonation after placing square, or lag. You can get rid of lag by aiming the camera at the sky while waiting to place square.`,
+    response:
+      'Visual cue for where to aim for tree windbomb: https://i.imgur.com/rxUiGbY.jpeg. Aiming further left along that red line will land you closer to the clipping spot but will make launch angles tighter, with lower launches getting blocked by the cliff. If you get no height from a launch, it may be because of bad bomb placements, late detonation after placing square, or lag. You can get rid of lag by aiming the camera at the sky while waiting to place square.',
     commands: ['!treewb'],
   },
   {
     title: 'Stasis windbomb guide',
-    response: 'https://x.com/OnyxEbony3/status/1561710631912296448',
+    response:
+      'Stasis windbomb instructions and visual cues by Onyx: https://x.com/OnyxEbony3/status/1561710631912296448',
     commands: ['!stasiswb'],
   },
   {
     title: 'Shrine of Resurrection clip guide',
-    response: `Visual cue: https://i.imgur.com/Q9nwRjY.png
-      Video guide: https://youtu.be/YR3poIgA_Yg`,
+    response:
+      "SoR clip video guide: https://youtu.be/YR3poIgA_Yg. Mini-map visual cue for Link's facing direction and camera angle: https://i.imgur.com/Q9nwRjY.png",
     commands: ['!sorclip'],
   },
   {
     title: 'Bombs elevator clip guide',
-    response: `Do an instant shield jump - hold ZL, move forward and press A and X at the same time (or) hold ZL and A, move forward and press X.
-      Video guide: https://youtu.be/R-KDr298Oh8`,
+    response:
+      'Do an instant shield jump - hold ZL, move forward and press A and X at the same time (or) hold ZL and A, move forward and press X. Video guide: https://youtu.be/R-KDr298Oh8',
     commands: ['!instant', '!bombsclip2'],
   },
   {
     title: 'Cryonis shrine normal clip guide',
-    response: 'https://youtu.be/2dsSUJCwlwM',
+    response: 'Cryo normal shield clip tutorial by Wolhaiksong: https://youtu.be/2dsSUJCwlwM',
     commands: ['!cryonormalclip'],
   },
   {
     title: 'Extended shield clip tutorial',
-    response: 'https://youtu.be/k_vvx5cz9Mk',
+    response: 'ESC tutorial by Limcube: https://youtu.be/k_vvx5cz9Mk',
     commands: ['!esctutorial', '!esctut', '!escguide'],
   },
   {
     title: 'Any% Blights tutorial',
-    response: 'https://youtu.be/aMbvew2Fskg',
+    response: 'In-depth blights tutorial by TheRealNoman: https://youtu.be/aMbvew2Fskg',
     commands: ['!blightstutorial', '!blightstut', '!blightsguide'],
   },
   {
     title: 'Any% (v1.6) tutorials',
-    response: `Beginner tutorial series by The Zelda Enthusiast: https://www.youtube.com/playlist?list=PLUL4WQb6rYgWJFfDyH5EoyhygmOpiOLvm
-      Commentated beginner route run-through by Player5: https://youtu.be/HwuPldbQIGo
-      Advanced tips and tricks by Player5: Part 1 - https://youtu.be/FLXJbbhhfNc | Part 2 - https://youtu.be/wmeEIbG7nNw`,
+    response:
+      'Beginner tutorial series by The Zelda Enthusiast: https://www.youtube.com/playlist?list=PLUL4WQb6rYgWJFfDyH5EoyhygmOpiOLvm | Commentated beginner route run-through by Player5: https://youtu.be/HwuPldbQIGo | Advanced tips and tricks by Player5: Part 1 - https://youtu.be/FLXJbbhhfNc, Part 2 - https://youtu.be/wmeEIbG7nNw',
     commands: ['!any%tutorial', '!any%tut', '!1.6any%tut'],
   },
   {
@@ -96,23 +97,25 @@ const commandsData = [
     commands: ['!1.8gptutorial', '!1.8gptut'],
   },
   {
-    title: '100% routes',
-    response: 'https://docs.google.com/document/d/1HVYL3AL60YvW9ucHcyH_0nUHQ8n7OqQuqWyBlHgteF0/edit?usp=sharing',
+    title: '100% route options',
+    response:
+      'Document covering 100% route options for each available game version: https://docs.google.com/document/d/1HVYL3AL60YvW9ucHcyH_0nUHQ8n7OqQuqWyBlHgteF0/edit?usp=sharing',
     commands: ['!100%routes', '!hundoroutes'],
   },
   {
     title: 'Shrine Coordinate Warp tutorial',
-    response: 'https://www.twitch.tv/videos/1601589390',
+    response: 'SCW Storage tutorial by Orcrist: https://www.twitch.tv/videos/1601589390',
     commands: ['!scwtutorial', '!scwtut', '!scwguide'],
   },
   {
     title: 'Understanding Inventory Slot Transfer',
-    response: 'https://youtu.be/TN_2rRqEDsQ',
+    response:
+      "Video covering IST and corruption concepts, useful for people trying to understand what's happening in the game during IST setups: https://youtu.be/TN_2rRqEDsQ",
     commands: ['!understandingist', '!istexplained'],
   },
   {
     title: 'All Dungeons IST setup',
-    response: 'https://youtu.be/NZBmu9hEZY0',
+    response: 'AD IST tutorial by Player5: https://youtu.be/NZBmu9hEZY0',
     commands: ['!adist'],
   },
   {
@@ -123,34 +126,61 @@ const commandsData = [
   },
   {
     title: 'Any% Fish Amiibo',
-    response: 'https://imgur.com/a/amiibo-needed-any-yvxxKeC',
+    response: 'List of amiibo that drop fish and their drop rates: https://imgur.com/a/amiibo-needed-any-yvxxKeC',
     commands: ['!fishamiibo', '!any%amiibo'],
   },
   {
     title: 'Enemy and Amiibo drop tables',
-    response: 'https://restite.org/drops/',
+    response: 'Complete BotW enemy and amiibo drop tables: https://restite.org/drops/',
     commands: ['!droptables', '!amiibodrops', '!enemydrops'],
   },
   {
     title: 'Version info',
-    response: `Allowed versions for speedrun submissions: 1.0, 1.3.1, 1.5, 1.6, 1.7, 1.8.2 S1E, 1.8.2 S2E.
-      v1.7 and prior: Makes heavy use of BLSS for long distance movement. Versions prior to v1.6 have slower loads on Switch 1. Glitches exclusive to pre-v1.6 versions are not allowed in speedrun submissions.
-      v1.8: BLSS patched. Long distance movement will involve use of BTBs instead.
-      v1.8 Switch 2 Edition: Runs at 60fps and has even faster loads. Has variances on all physics based tricks, including skew clips, windbombs and BTBs.`,
+    response:
+      'Allowed versions for speedrun submissions: 1.0, 1.3.1, 1.5, 1.6, 1.7, 1.8.2 S1E, 1.8.2 S2E | More info - v1.7 and prior: !v1.6, v1.8: !v1.8',
     commands: ['!versions', '!versioninfo'],
   },
   {
+    title: 'Versions 1.7 and prior',
+    response:
+      'v1.7 and prior versions make heavy use of BLSS for long distance movement. Versions prior to v1.6 have slower loads on Switch 1. Glitches exclusive to pre-v1.6 versions are not allowed in speedrun submissions.',
+    commands: ['!v1.6', '!v1.7'],
+  },
+  {
+    title: 'Version 1.8',
+    response:
+      'v1.8 has faster load times than v1.6 and prior versions, but has BLSS patched. Long distance movement will involve use of BTBs instead. Switch 2 Edition of v1.8 runs at 60fps and has even faster loads. S2E has variances on all physics based tricks, including skew clips, windbombs and BTBs.',
+    commands: ['!v1.8'],
+  },
+  {
     title: 'Language speeds',
-    response: `The fastest language for a category depends on the voice acted cutscenes that need to be watched and the text that needs to be scrolled through. Text on screen is affected by console language while VA cutscene lengths (including interactive VA cutscenes like the Dark Beast fight) are affected by VA language.
-      Fastest language calculator: https://pistonight.github.io/botw-fastest-lang`,
+    response:
+      'The fastest language for a category depends on the voice acted cutscenes that need to be watched and the text that needs to be scrolled through. Text on screen is affected by console language while VA cutscene lengths (including interactive VA cutscenes like the Dark Beast fight) are affected by VA language. Fastest language calculator: https://pistonight.github.io/botw-fastest-lang',
     commands: ['!languages', '!languageinfo'],
   },
   {
     title: 'Console differences',
-    response: `WiiU: Slowest console. Can only run v1.5 or prior versions. Slowest loads compared to Switch 1 and 2. Worse lag makes windbombing in some areas inconsistent.
-      Switch 1: Fastest option for v1.6 speedruns and fastest option overall for most short and mid length categories. Can run v1.8 as well, but has worse load times compared to Switch 2.
-      Switch 2: Much faster loads compared to the other consoles. Limited to v1.8 and later meaning runs on Switch 2 cannot use BLSS. Fastest option overall for very long categories.`,
+    response:
+      'WiiU: Slowest console, most amount of lag, capped at v1.5 | Switch 1: Better loads and less lag while still having access to BLSS | Switch 2: BLSS patched, but has much faster loads and much less lag | More info - WiiU: !wiiu, Switch 1: !switch1, Switch 2: !switch2',
     commands: ['!consoles', '!consoleinfo'],
+  },
+  {
+    title: 'Breath of the Wild on WiiU',
+    response:
+      'WiiU is the slowest console to run BotW on. It has the slowest loads of all console options with worse lag making windbombing in some areas inconsistent. The latest version released on WiiU is v1.5.',
+    commands: ['!wiiu', '!botwonwiiu'],
+  },
+  {
+    title: 'Breath of the Wild on Switch 1',
+    response:
+      'Switch 1 is the fastest option for runs on v1.7 and prior, and is the fastest option overall for most short and mid length glitched categories. Switch 1 can run v1.8 as well, but has worse load times compared to Switch 2.',
+    commands: ['!switch1', '!botwonswitch1'],
+  },
+  {
+    title: 'Breath of the Wild on Switch 2',
+    response:
+      'Switch 2 has much faster loads compared to the other consoles but is limited to v1.8 and later, meaning runs on Switch 2 cannot use BLSS. It is the fastest option overall for very long categories, especially categories like 100% that do not use BLSS for most of the run.',
+    commands: ['!switch2', '!botwonswitch2'],
   },
   {
     title: 'Using emulators for leaderboard submissions',
@@ -166,14 +196,13 @@ const commandsData = [
   },
   {
     title: 'Downpatching',
-    response: `Homebrew: !homebrewdownpatch
-      Stock OS: !stockdownpatch`,
+    response: 'Homebrew: !homebrewdownpatch, Stock OS: !stockdownpatch',
     commands: ['!downpatch', '!downpatching'],
   },
   {
     title: 'Downpatching with Homebrew',
-    response: `Uninstall v1.8 and install a previously dumped copy of v1.6 using Goldleaf. You will need to reset launch version after downpatching.
-      Note: You will be unable to play any saves made on v1.8 on prior versions.`,
+    response:
+      'Uninstall v1.8 and install a previously dumped copy of v1.6 using Goldleaf. You will need to reset launch version after downpatching. You will be unable to play any saves made on v1.8 on prior versions.',
     commands: ['!homebrewdownpatch', '!homebrewdownpatching'],
   },
   {
