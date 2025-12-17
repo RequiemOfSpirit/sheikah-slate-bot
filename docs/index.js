@@ -6,10 +6,38 @@ const commandsData = [
     commands: ['!commands', '!botwcommands'],
   },
   {
+    title: 'Breath of the Wild leaderboards',
+    response: 'BotW main board: https://www.speedrun.com/botw | Category extensions: https://www.speedrun.com/botwce',
+    commands: ['!lb', '!mainboard', '!ce', '!extensions'],
+  },
+  {
+    title: 'Breath of the Wild speedrun discord',
+    response: 'BotW speedrun discord: https://discord.gg/vdJTWtBYVG',
+    commands: ['!srdiscord'],
+  },
+  {
+    title: 'Windbombing',
+    response:
+      "Windbombing is a trick that abuses bullet time to allow using one bomb's explosion to launch another bomb into Link, launching him at high speeds. This trick is primarily used to quickly cover short to mid range distances. | Tutorial: !wbtut",
+    commands: ['!wb', '!windbomb'],
+  },
+  {
     title: 'Windbomb tutorial',
     response:
       'In-depth windbomb tutorial series by Vivoxe: https://www.youtube.com/playlist?list=PLDeJIkztemjirnz-Wpz0dhKw4VdVfLnZ5',
     commands: ['!wbtutorial', '!wbtut', '!wbguide'],
+  },
+  {
+    title: 'Bullet Time Bounces',
+    response:
+      'Bullet Time Bounces involve landing on an enemy while shield surfing in bullet time and exiting bullet time as soon as it ragdolls. The ragdolling enemy pushes Link away at an incorrectly high speed and exiting bullet time multiplies this speed by 20x letting Link traverse very long distances.',
+    commands: ['!btb'],
+  },
+  {
+    title: 'Bow Lift Smuggle Slide',
+    response:
+      "Bow Lift Smuggle Slide is a glitch discovered by LegendofLuke that involves smuggling a bow and any carryable item (like a bomb) in Link's hand, interrupting a step-up animation and taking advantage of the lack of gravity to slide around at high speeds without losing height or stamina, with the smuggled item continuously pushing Link along. | Tutorial: !blsstut, Execution examples: !blssstyles",
+    commands: ['!blss'],
   },
   {
     title: 'BLSS tutorial',
@@ -17,15 +45,37 @@ const commandsData = [
     commands: ['!blsstutorial', '!blsstut', '!blssguide'],
   },
   {
+    title: 'BLSS flicking styles',
+    response: 'Different BLSS flicking techniques from various runners: https://restite.org/blss',
+    commands: ['!blssstyles', '!flickingstyles'],
+  },
+  {
+    title: 'Skew/Shield Clipping',
+    response:
+      "When Link shield flips upwards onto a slope without surfing, the game stores the slope's direction and angle at Link's center. The next time you shield flip, Link will tilt or 'skew' in that direction at that stored angle and snap back upright immediately after. This skew can be used to clip through certain walls in the game. | Guide: !shieldcliptut",
+    commands: ['!skew', '!skewclip', '!shieldclip'],
+  },
+  {
+    title: 'Extended Shield Clipping',
+    response:
+      'While performing a shield clip through a wall, you can extend your clip by re-equipping shield and holding the shield surf inputs, allowing you to clip through thicker walls like shrine doors or to clip through thin walls with weak skews. | Guide: !shieldcliptut',
+    commands: ['!esc'],
+  },
+  {
     title: 'Skew and general shield clipping tutorial',
     response:
       'Detailed guide covering skew and the many different forms of shield clipping: https://youtu.be/Y6JTniuJPXE',
-    commands: ['!skew', '!shieldcliptutorial', '!shieldcliptut', '!shieldclipguide'],
+    commands: ['!shieldcliptutorial', '!shieldcliptut', '!shieldclipguide'],
+  },
+  {
+    title: 'Extended shield clip tutorial',
+    response: 'ESC tutorial by Limcube: https://youtu.be/k_vvx5cz9Mk',
+    commands: ['!esctutorial', '!esctut', '!escguide'],
   },
   {
     title: 'Ragdoll glitch',
     response:
-      'Ragdoll glitch is caused by shield jumping and unequipping shield midair. This glitch messes with any trick that involves link ragdolling, such as windbombs. Detailed explanation: https://youtu.be/d6-QhXwD8sY',
+      'Ragdoll glitch is caused by shield jumping and unequipping shield midair. This glitch messes with any trick that involves Link ragdolling, such as windbombs. Detailed explanation: https://youtu.be/d6-QhXwD8sY',
     commands: ['!ragdoll', '!ragdollglitch'],
   },
   {
@@ -75,11 +125,6 @@ const commandsData = [
     commands: ['!cryonormalclip'],
   },
   {
-    title: 'Extended shield clip tutorial',
-    response: 'ESC tutorial by Limcube: https://youtu.be/k_vvx5cz9Mk',
-    commands: ['!esctutorial', '!esctut', '!escguide'],
-  },
-  {
     title: 'Any% Blights tutorial',
     response: 'In-depth blights tutorial by TheRealNoman: https://youtu.be/aMbvew2Fskg',
     commands: ['!blightstutorial', '!blightstut', '!blightsguide'],
@@ -103,9 +148,39 @@ const commandsData = [
     commands: ['!100%routes', '!hundoroutes'],
   },
   {
+    title: 'Golden Gauntlets',
+    response:
+      'Golden Gauntlets is a glitch that allows Link to pick up any object and treat it as if he was holding a remote bomb instead, making walking slightly faster because of bombs being lighter. In 100%, this glitch is used to save time for the rock pattern koroks and the rock roast quest. Tutorial: https://youtube.com/shorts/jJkDv-W7vH8',
+    commands: ['!goldgaunts', '!goldengauntlets'],
+  },
+  {
+    title: 'Shrine Coordinate Warps',
+    response:
+      "Shrine Coordinate Warps involve storing the elevator activation of one shrine and using that to enter another shrine by landing within the 2nd shrine's load radius. | Tutorial: !scwtut, Overworld map with shrine load radii: !objmap",
+    commands: ['!scw'],
+  },
+  {
+    title: 'Buffered SCWs',
+    response:
+      "Buffered SCWs involve carrying over SCW elevator storage to shrines outside of the stored elevator's unload radius. This involves holding the quick menu open and only advancing the game a few frames at a time every second to prevent the elevator from unloading. In-depth explanation and guide: https://youtu.be/wVUSCTo4kGY",
+    commands: ['!bufferedscw'],
+  },
+  {
+    title: 'Infinite SCWs',
+    response:
+      'Some shrines have an infinite unloading radius, meaning that the elevator will not unload as Link moves away from the shrine. This allows Link to SCW into shrines that are much farther away without having to buffer to maintain storage.',
+    commands: ['!iscw'],
+  },
+  {
     title: 'Shrine Coordinate Warp tutorial',
     response: 'SCW Storage tutorial by Orcrist: https://www.twitch.tv/videos/1601589390',
     commands: ['!scwtutorial', '!scwtut', '!scwguide'],
+  },
+  {
+    title: 'Inventory Slot Transfer',
+    response:
+      'Inventory Slot Transfer is a trick that lets us effectively transfer items to other saves allowing for inventory corruption using the transfered items which lets us modify and max out item counts and modify weapon durabilities. | Understanding IST: !understandingist, IST Simulator: !istsim',
+    commands: ['!ist'],
   },
   {
     title: 'Understanding Inventory Slot Transfer',
@@ -117,6 +192,12 @@ const commandsData = [
     title: 'All Dungeons IST setup',
     response: 'AD IST tutorial by Player5: https://youtu.be/NZBmu9hEZY0',
     commands: ['!adist'],
+  },
+  {
+    title: 'Weapon Modifier Corruption',
+    response:
+      'Weapon Modifier Corruption is a trick that allows us to corrupt weapon modifiers by applying meal stats (health, sell price) onto weapon modifier data (modifier value, modifier types), allowing us to create extremely broken weapons like bows with +100 attack up that shoot 10 arrows. | WMC meals database: !wmcmeals',
+    commands: ['!wmc'],
   },
   {
     title: 'Amiibo alternatives',
@@ -133,6 +214,35 @@ const commandsData = [
     title: 'Enemy and Amiibo drop tables',
     response: 'Complete BotW enemy and amiibo drop tables: https://restite.org/drops/',
     commands: ['!droptables', '!amiibodrops', '!enemydrops'],
+  },
+  {
+    title: 'All Dungeons requirements',
+    response: 'All Dungeons requires beating all the divine beasts and then beating Ganon at the end',
+    commands: ['!adrequirements', '!adgoals'],
+  },
+  {
+    title: 'Master Sword Restricted requirements',
+    response:
+      'Master Sword Restricted requires getting the master sword as fast as possible without using glitches to dupe hearts or otherwise get it early. This involves completing 40 shrines and then trading the spirit orbs in for the required 13 hearts.',
+    commands: ['!msrrequirements', '!msrgoals'],
+  },
+  {
+    title: 'All Main Quests requirements',
+    response:
+      'All Main Quests requires clearing all "Main Quests" which includes beating all divine beasts, collecting all memories, finishing the fairy fountain quest, finishing the tower quest on plateau, and obtaining the master sword',
+    commands: ['!amqrequirements', '!amqgoals'],
+  },
+  {
+    title: '100% requirements',
+    response:
+      "100% requires - all 900 koroks, 120 shrines, divine beasts, main quests, side quests, shrine quests, and memories, 100% map counter, all health and stamina upgrades, all permanent items [upgraded shiekah slate, all Kilton medals (kill 40 Hinoxes, 40 Talus, 4 Molduga), horse bridles and saddles, Confidential Envelope (completed Compendium) and Hestu's Gift], and all unsellable armor fully upgraded (Zora set, Cap+Tunic+Trousers of the Wild, Champion's Tunic, and Thunder Helm)",
+    commands: ['!hundorequirements', '!hundogoals', '!100%requirements', '!100%goals'],
+  },
+  {
+    title: 'Bug Limit',
+    response:
+      'Bug Limit is the "No Major Glitches" equivalent for BotW runs. It allows use of certain tricks and glitches that are deemed "minor" like whistle sprinting, fall damage cancelling, and infinite horse stamina. Full rules list: https://www.speedrun.com/botw?h=Bug_Limit_Categories-Any-Original&rules=category&x=wdml4v3k-38djj2e8.814vk9w1-5ly772yl.0q55x4rq',
+    commands: ['!buglimit'],
   },
   {
     title: 'Version info',
@@ -210,6 +320,22 @@ const commandsData = [
     response:
       'Factory reset your Switch and turn off "Auto-Update Software" in system settings. You can now play on any v1.0-v1.6 game card. If on a pre-v1.6 version, you can use local version matching with another Switch that has v1.6 to upgrade.',
     commands: ['!stockdownpatch', '!stockdownpatching'],
+  },
+  {
+    title: 'Breath of the Wild Object Map',
+    response:
+      'Object map showing locations of and providing detailed info on various entities in BotW: https://objmap.zeldamods.org',
+    commands: ['!objmap'],
+  },
+  {
+    title: 'IST Simulator',
+    response: 'IST simulator to help plan IST setups: https://ist.pistonite.app',
+    commands: ['!istsim', '!istsimulator'],
+  },
+  {
+    title: 'WMC meals database',
+    response: 'Tool to plan out meals for WMC setups: https://restite.org/wmc',
+    commands: ['!wmcmeals'],
   },
   {
     title: 'D-Pad fix',
