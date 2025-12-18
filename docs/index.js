@@ -235,7 +235,7 @@ const commandsData = [
   {
     title: '100% requirements',
     response:
-      "100% requires - all 900 koroks, 120 shrines, divine beasts, main quests, side quests, shrine quests, and memories, 100% map counter, all health and stamina upgrades, all permanent items [upgraded shiekah slate, all Kilton medals (kill 40 Hinoxes, 40 Talus, 4 Molduga), horse bridles and saddles, Confidential Envelope (completed Compendium) and Hestu's Gift], and all unsellable armor fully upgraded (Zora set, Cap+Tunic+Trousers of the Wild, Champion's Tunic, and Thunder Helm)",
+      "100% requires - 900 koroks, 120 shrines, all divine beasts, main quests, side quests, shrine quests and memories, 100% map counter, all health and stamina upgrades, all permanent items [upgraded shiekah slate, all Kilton medals (kill 40 Hinoxes, 40 Talus, 4 Molduga), horse bridles and saddles, Confidential Envelope (completed Compendium), Hestu's Gift] and all unsellable armor fully upgraded (Zora Set, Armor of the Wild Set, Champion's Tunic, Thunder Helm)",
     commands: ['!hundorequirements', '!hundogoals', '!100%requirements', '!100%goals'],
   },
   {
