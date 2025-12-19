@@ -4,6 +4,7 @@ import { SheikahSlateBotInternalApiClient } from '@sheikah-slate-bot/api/client/
 import { BASE_API_URL } from './utils/env.ts';
 
 const COMMAND_PREFIX = '!';
+const RESOURCE_CONTENT_SEPARATOR = '|';
 
 const apiClient = new SheikahSlateBotInternalApiClient({
   client: createClient(createConfig({ baseUrl: BASE_API_URL, throwOnError: true })),
@@ -35,10 +36,15 @@ export const handleNewMessage = async (message: Message): Promise<void> => {
   // Send discord response
   console.log(`Sending response for command '${command}'`);
 
+  const formattedResourceContent = resource.content
+    .split(RESOURCE_CONTENT_SEPARATOR)
+    .map((part) => part.trim())
+    .join('\n');
+
   const discordReply = new EmbedBuilder()
     .setColor(Colors.Blue)
     .setTitle(resource.title)
-    .setDescription(resource.content);
+    .setDescription(formattedResourceContent);
 
   if (resource.commands.length > 1) {
     discordReply.setFooter({ text: `Aliases: ${resource.commands.join(', ')}` });
