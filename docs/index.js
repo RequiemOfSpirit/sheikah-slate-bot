@@ -391,7 +391,7 @@ const commandsData = [
     const responseCell = document.createElement('td');
     // Render line breaks and replace URLs with actual links
     responseCell.innerHTML = response
-      .replace(/(https?:\/\/[^\s]+)/g, '<a href="$1">$1</a>')
+      .replace(/(https?:\/\/[^\s]+?)(?=[.,]?\s|$)/g, '<a href="$1">$1</a>')
       .split('|')
       .map((part) => part.trim())
       .join('<br>');
