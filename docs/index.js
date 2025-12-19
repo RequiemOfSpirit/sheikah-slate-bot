@@ -212,7 +212,7 @@ const commandsData = [
   },
   {
     title: 'Enemy and Amiibo drop tables',
-    response: 'Complete BotW enemy and amiibo drop tables: https://restite.org/drops/',
+    response: 'Complete BotW enemy and amiibo drop tables: https://restite.org/drops',
     commands: ['!droptables', '!amiibodrops', '!enemydrops'],
   },
   {
@@ -390,7 +390,11 @@ const commandsData = [
     // Create the response cell
     const responseCell = document.createElement('td');
     // Render line breaks and replace URLs with actual links
-    responseCell.innerHTML = response.replace(/\n/g, ' <br> ').replace(/(https?:\/\/[^\s]+)/g, '<a href="$1">$1</a>');
+    responseCell.innerHTML = response
+      .replace(/(https?:\/\/[^\s]+)/g, '<a href="$1">$1</a>')
+      .split('|')
+      .map((part) => part.trim())
+      .join('<br>');
 
     // Append cells to the row
     row.appendChild(commandCellContainer);
