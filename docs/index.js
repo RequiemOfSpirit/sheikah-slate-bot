@@ -98,7 +98,7 @@ const commandsData = [
   {
     title: 'Tree windbomb guide',
     response:
-      'Visual cue for where to aim for tree windbomb: https://i.imgur.com/rxUiGbY.jpeg. Aiming further left along that red line will land you closer to the clipping spot but will make launch angles tighter, with lower launches getting blocked by the cliff. If you get no height from a launch, it may be because of bad bomb placements, late detonation after placing square, or lag. You can get rid of lag by aiming the camera at the sky while waiting to place square.',
+      'Visual cue for where to aim for tree windbomb: https://imgur.com/a/qNjrtBd. Aiming further left along that red line will land you closer to the clipping spot but will make launch angles tighter, with lower launches getting blocked by the cliff. If you get no height from a launch, it may be because of bad bomb placements, late detonation after placing square, or lag. You can get rid of lag by aiming the camera at the sky while waiting to place square.',
     commands: ['!treewb'],
   },
   {
