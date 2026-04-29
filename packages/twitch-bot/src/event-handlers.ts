@@ -219,13 +219,17 @@ export const handleNewChatMessage = async (
   const splitMessage = chatMessageEvent.message.text.split(' ');
 
   // First word in the text for a reply message is a ping mentioning the parent message's author
-  const firstWordInMessage = (chatMessageEvent.reply ? splitMessage[1] : splitMessage[0]) as string;
+  const firstWordInMessage = (chatMessageEvent.reply ? splitMessage[1] : splitMessage[0]);
+  if (firstWordInMessage === undefined) {
+    console.error('[Error] Received chat message with empty text. Message event:', chatMessageEvent);
+    return;
+  }
   if (!firstWordInMessage.startsWith(COMMAND_PREFIX)) {
     return;
   }
 
   // Remove the prefix and convert to lowercase
-  const command = firstWordInMessage.slice(1).toLowerCase();
+  const command = firstWordInMessage.slice(COMMAND_PREFIX.length).toLowerCase();
 
   // Handle join/leave commands in bot channel
   if (chatMessageEvent.broadcaster_user_id === TWITCH_BOT_USER_ID) {
