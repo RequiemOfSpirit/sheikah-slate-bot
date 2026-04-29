@@ -136,10 +136,10 @@ const commandsData = [
     commands: ['!any%tutorial', '!any%tut', '!1.6any%tut'],
   },
   {
-    title: 'Great Plateau (v1.8) tutorial',
+    title: 'Great Plateau (v1.9) tutorial',
     response:
       "The videos covering the Great Plateau and Castle BTB in Limcube's Any% tutorial series: https://www.youtube.com/playlist?list=PLA9o4XP3K5-bIVynKm-jHeV7M6i4c0_1k",
-    commands: ['!1.8gptutorial', '!1.8gptut'],
+    commands: ['!1.8gptut', '!1.9gptutorial', '!1.9gptut'],
   },
   {
     title: '100% route options',
@@ -247,7 +247,7 @@ const commandsData = [
   {
     title: 'Version info',
     response:
-      'Allowed versions for speedrun submissions: 1.0, 1.3.1, 1.5, 1.6, 1.7, 1.8.2 S1E, 1.8.2 S2E | More info - v1.7 and prior: !v1.6, v1.8: !v1.8',
+      'Allowed versions for speedrun submissions: 1.0, 1.3.1, 1.5, 1.6, 1.7, 1.9 S1E, 1.9 S2E | More info - v1.7 and prior: !v1.6, v1.9: !v1.9',
     commands: ['!versions', '!versioninfo'],
   },
   {
@@ -257,10 +257,10 @@ const commandsData = [
     commands: ['!v1.6', '!v1.7'],
   },
   {
-    title: 'Version 1.8',
+    title: 'Version 1.9',
     response:
-      'v1.8 has faster load times than v1.6 and prior versions, but has BLSS patched. Long distance movement will involve use of BTBs instead. Switch 2 Edition of v1.8 runs at 60fps and has even faster loads. S2E has variances on all physics based tricks, including skew clips, windbombs and BTBs.',
-    commands: ['!v1.8'],
+      'v1.9 has faster load times than v1.6 and prior versions, but has BLSS patched. Long distance movement requires use of BTBs instead. Switch 2 Edition of v1.9 runs at 60fps and has even faster loads. S2E has variances on all physics based tricks, including skew clips, windbombs and BTBs.',
+    commands: ['!v1.9'],
   },
   {
     title: 'Language speeds',
@@ -283,7 +283,7 @@ const commandsData = [
   {
     title: 'Breath of the Wild on Switch 1',
     response:
-      'Switch 1 is the fastest option for runs on v1.7 and prior, and is the fastest option overall for most short and mid length glitched categories. Switch 1 can run v1.8 as well, but has worse load times compared to Switch 2.',
+      'Switch 1 is the fastest option for runs on v1.7 and prior, and is the fastest option overall for most short and mid length glitched categories. Switch 1 can run v1.9 as well, but has worse load times compared to Switch 2.',
     commands: ['!switch1', '!botwonswitch1'],
   },
   {
@@ -312,7 +312,7 @@ const commandsData = [
   {
     title: 'Downpatching with Homebrew',
     response:
-      'Uninstall v1.8 and install a previously dumped copy of v1.6 using Goldleaf. You will need to reset launch version after downpatching. You will be unable to play any saves made on v1.8 on prior versions.',
+      'Uninstall v1.9 and install a previously dumped copy of v1.6 using Goldleaf. You will need to reset launch version after downpatching. You will not be able to play any saves made on v1.9 on prior versions.',
     commands: ['!homebrewdownpatch', '!homebrewdownpatching'],
   },
   {
