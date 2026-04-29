@@ -196,7 +196,7 @@ const commandsData = [
   {
     title: 'Weapon Modifier Corruption',
     response:
-      'Weapon Modifier Corruption is a trick that allows us to corrupt weapon modifiers by applying meal stats (health, sell price) onto weapon modifier data (modifier value, modifier types), allowing us to create extremely broken weapons like bows with +100 attack up that shoot 10 arrows. | WMC meals database: !wmcmeals',
+      'Weapon Modifier Corruption is a trick that allows us to corrupt weapon modifiers by applying meal stats (health, sell price) onto weapon modifier data (modifier value, modifier types), allowing us to create extremely broken weapons like bows with +100 attack up that shoot 10 arrows. More details: https://zsr.link/wmc-sheet. | WMC meals database: !wmcmeals',
     commands: ['!wmc'],
   },
   {
@@ -334,7 +334,7 @@ const commandsData = [
   },
   {
     title: 'WMC meals database',
-    response: 'Tool to plan out meals for WMC setups: https://restite.org/wmc',
+    response: 'Tool to plan out WMC meals for attack up weapons: https://restite.org/wmc. Full WMC meals database: https://github.com/Pistonite/botw-recipe.',
     commands: ['!wmcmeals'],
   },
   {
