@@ -334,7 +334,8 @@ const commandsData = [
   },
   {
     title: 'WMC meals database',
-    response: 'Tool to plan out WMC meals for attack up weapons: https://restite.org/wmc. Full WMC meals database: https://github.com/Pistonite/botw-recipe.',
+    response:
+      'Tool to plan out WMC meals for attack up weapons: https://restite.org/wmc. Full WMC meals database: https://github.com/Pistonite/botw-recipe.',
     commands: ['!wmcmeals'],
   },
   {

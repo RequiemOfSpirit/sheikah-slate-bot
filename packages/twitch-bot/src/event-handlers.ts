@@ -219,7 +219,7 @@ export const handleNewChatMessage = async (
   const splitMessage = chatMessageEvent.message.text.split(' ');
 
   // First word in the text for a reply message is a ping mentioning the parent message's author
-  const firstWordInMessage = (chatMessageEvent.reply ? splitMessage[1] : splitMessage[0]);
+  const firstWordInMessage = chatMessageEvent.reply ? splitMessage[1] : splitMessage[0];
   if (firstWordInMessage === undefined) {
     console.error('[Error] Received chat message with empty text. Message event:', chatMessageEvent);
     return;
