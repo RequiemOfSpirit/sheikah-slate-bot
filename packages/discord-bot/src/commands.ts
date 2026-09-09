@@ -16,3 +16,5 @@ export const infoCommand = new SlashCommandBuilder()
       .setDescription('If True, makes the response private and visible only to you')
       .setRequired(false),
   );
+
+export const commands = [infoCommand];

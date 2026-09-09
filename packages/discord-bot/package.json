@@ -13,6 +13,7 @@
     "build": "npm run dist",
     "predist": "npm run clean:build",
     "dist": "tsc",
+    "deploy-commands": "node scripts/deploy-commands.js",
     "start": "node build/dist/index.js"
   },
   "type": "module",

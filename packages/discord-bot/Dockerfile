@@ -16,6 +16,7 @@ ENV NODE_ENV=production
 RUN --mount=type=cache,target=/root/.npm npm ci --no-audit --no-fund
 COPY --from=build-stage /usr/local/app/packages/api/build/dist packages/api/build/dist
 COPY --from=build-stage /usr/local/app/packages/discord-bot/build/dist packages/discord-bot/build/dist
+COPY packages/discord-bot/scripts packages/discord-bot/scripts
 COPY packages/discord-bot/.env packages/discord-bot/.env
 
 CMD ["npm", "start", "-w", "packages/discord-bot"]
