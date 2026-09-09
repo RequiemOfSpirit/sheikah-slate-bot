@@ -318,7 +318,7 @@ const commandsData = [
   {
     title: 'Downpatching on Stock Switch OS without Homebrew',
     response:
-      'Factory reset your Switch and turn off "Auto-Update Software" in system settings. You can now play on any v1.0-v1.6 game card. If on a pre-v1.6 version, you can use local version matching with another Switch that has v1.6 to upgrade.',
+      '(WARNING: This will permanently delete all data on your console. Backup anything important before proceeding.) Factory reset your Switch and turn off "Auto-Update Software" in system settings. You can now play on any v1.0-v1.6 game card. If on a pre-v1.6 version, you can use local version matching with another Switch that has v1.6 to upgrade.',
     commands: ['!stockdownpatch', '!stockdownpatching'],
   },
   {
