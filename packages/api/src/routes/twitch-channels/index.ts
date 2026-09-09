@@ -36,7 +36,7 @@ export const twitchChannelRoutes = (fastify: FastifyInstance) => {
     }
 
     await fastify.twitchChannelDao.addTwitchChannel(twitchChannelId);
-    return reply.code(200).send();
+    return reply.code(200).send(null);
   });
 
   fastify.delete<RemoveTwitchChannelRouteInterface>(
@@ -53,7 +53,7 @@ export const twitchChannelRoutes = (fastify: FastifyInstance) => {
       }
 
       await fastify.twitchChannelDao.removeTwitchChannel(twitchChannelId);
-      return reply.code(200).send();
+      return reply.code(200).send(null);
     },
   );
 };
