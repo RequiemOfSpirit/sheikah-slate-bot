@@ -1,4 +1,4 @@
-import { ChatInputCommandInteraction, Colors, EmbedBuilder, Interaction } from 'discord.js';
+import { ChatInputCommandInteraction, Colors, EmbedBuilder, Interaction, MessageFlags } from 'discord.js';
 import { createClient, createConfig } from '@sheikah-slate-bot/api/client-utils';
 import { SheikahSlateBotInternalApiClient } from '@sheikah-slate-bot/api/client/internal';
 import { INFO_COMMAND_OPTION_NAMES, infoCommand } from './commands.ts';
@@ -35,14 +35,17 @@ const handleInfoCommand = async (interaction: ChatInputCommandInteraction): Prom
     apiResponse = await apiClient.listResources({ query: { commandName: command } });
   } catch (error) {
     console.error("[Error] Error calling 'listResources':", error);
-    await interaction.reply({ content: 'Unable to retrieve resource. Report issue to bot owner.', ephemeral: true });
+    await interaction.reply({
+      content: 'Unable to retrieve resource. Report issue to bot owner.',
+      flags: MessageFlags.Ephemeral,
+    });
     return;
   }
 
   const resource = apiResponse.data.resources[0];
   if (resource === undefined) {
     console.log(`Command '${command}' not found`);
-    await interaction.reply({ content: `Command '${command}' not found.`, ephemeral: true });
+    await interaction.reply({ content: `Command '${command}' not found.`, flags: MessageFlags.Ephemeral });
     return;
   }
 
@@ -63,5 +66,5 @@ const handleInfoCommand = async (interaction: ChatInputCommandInteraction): Prom
     discordReply.setFooter({ text: `Aliases: ${resource.commands.join(', ')}` });
   }
 
-  await interaction.reply({ embeds: [discordReply], ephemeral: isPrivate });
+  await interaction.reply({ embeds: [discordReply], flags: isPrivate ? MessageFlags.Ephemeral : undefined });
 };
